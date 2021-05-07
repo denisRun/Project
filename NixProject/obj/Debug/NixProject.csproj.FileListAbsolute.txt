@@ -1,0 +1,7 @@
+D:\nixProject\NixProject\obj\Debug\NixProject.csprojAssemblyReference.cache
+D:\nixProject\NixProject\obj\Debug\NixProject.csproj.CoreCompileInputs.cache
+D:\nixProject\NixProject\bin\Debug\NixProject.exe.config
+D:\nixProject\NixProject\bin\Debug\NixProject.exe
+D:\nixProject\NixProject\bin\Debug\NixProject.pdb
+D:\nixProject\NixProject\obj\Debug\NixProject.exe
+D:\nixProject\NixProject\obj\Debug\NixProject.pdb
