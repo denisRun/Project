@@ -1,0 +1,40 @@
+https://drive.google.com/file/d/1Coh__E-ntCowElC8hmj73dX3mBsA-BhT/view?usp=sharing
+
+
+CREATE TABLE RoomCategory(
+CategoryID int IDENTITY(1,1),
+Name nvarchar(50),
+PRIMARY KEY (CategoryID));
+
+CREATE TABLE Room(
+RoomID int IDENTITY(1,1),
+RoomNumber int NOT NULL,
+Price money NOT NULL,
+CategoryID int,
+Capacity int NOT NULL,
+PRIMARY KEY(RoomID),
+FOREIGN KEY (CategoryID) REFERENCES RoomCategory(CategoryID));
+
+CREATE TABLE Guest(
+GuestID int IDENTITY(1,1),
+Birthday date NOT NULL,
+FullName nvarchar(100) NOT NULL,
+Residence nvarchar(200) NOT NULL,
+PRIMARY KEY (GuestID));
+
+CREATE TABLE ReservationStatus(
+StatusID int IDENTITY(1,1),
+Name nvarchar(100),
+PRIMARY KEY (StatusID));
+
+CREATE TABLE Reservation(
+OrderID int IDENTITY(1,1),
+GuestID int,
+RoomID int,
+StatusID int,
+Entry datetime NOT NULL,
+Leave datetime NOT NULL,
+PRIMARY KEY (OrderID),
+FOREIGN KEY (GuestID) REFERENCES Guest(GuestID),
+FOREIGN KEY (RoomID) REFERENCES Room(RoomID),
+FOREIGN KEY (StatusID) REFERENCES ReservationStatus(StatusID));
