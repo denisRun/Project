@@ -129,6 +129,57 @@ namespace HotelAPI.Controllers
             }
         }
 
+        [Route("api/Booking/MoneyPerMonth")]
+        [HttpGet]
+        public HttpResponseMessage MoneyPerMonthGet(HttpRequestMessage request)
+        {
+            try
+            {
+                var bookings = service.GetAllBookings();
+                Dictionary<string, decimal> money = new Dictionary<string, decimal>();
+                foreach(var booking in bookings)
+                {
+                    string key = booking.EnterDate.ToString("yyyy.MM");
+                    decimal sum = Decimal.Parse((booking.LeaveDate - booking.EnterDate).TotalDays.ToString()) * booking.BookingRoom.RoomCategory.Price;
+                    if (money.ContainsKey(key))
+                    {
+                        money[key] += sum;
+                    }
+                    else
+                    {
+                        money.Add(key, sum);
+                    }
+                }
+                return request.CreateResponse(HttpStatusCode.OK, money);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        
+
+        [Route("api/Booking/Registration/{id}")]
+        [HttpPut]
+        public HttpResponseMessage RegistrationPut(HttpRequestMessage request, int id)
+        {
+            try
+            {
+                var booking = service.Get(id);
+                if (booking != null)
+                {
+                    booking.Set = "yes";
+                    service.Update(id, booking);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
 
         public void Delete(int id)
         {
