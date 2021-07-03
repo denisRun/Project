@@ -9,7 +9,7 @@ namespace HotelBLL.Interfaces
 {
     public interface IGuestService
     {
-        IEnumerable<GuestDTO> GetAllRooms();
+        IEnumerable<GuestDTO> GetAllGuests();
         GuestDTO Get(int id);
     }
 }

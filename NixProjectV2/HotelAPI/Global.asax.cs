@@ -1,3 +1,8 @@
+using HotelAPI.Utils;
+using HotelBLL.Infrastructure;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.WebApi.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +23,13 @@ namespace HotelAPI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            NinjectModule guestModule = new GuestModule();
+            NinjectModule dependencyModule = new DependencyModule("HotelModel");
+            var kernel = new StandardKernel(guestModule, dependencyModule);
+            kernel.Bind<DefaultFilterProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetFilterProviders());
+            kernel.Bind<DefaultModelValidatorProviders>().ToConstant(new DefaultModelValidatorProviders(GlobalConfiguration.Configuration.Services.GetModelValidatorProviders()));
+            GlobalConfiguration.Configuration.DependencyResolver = new Ninject.Web.WebApi.NinjectDependencyResolver(kernel);
         }
     }
 }

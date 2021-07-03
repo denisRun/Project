@@ -9,7 +9,7 @@ namespace HotelBLL.Interfaces
 {
     public interface ICategoryService
     {
-        IEnumerable<CategoryDTO> GetAllRooms();
+        IEnumerable<CategoryDTO> GetAllCategories();
         CategoryDTO Get(int id);
     }
 }

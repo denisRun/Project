@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HotelBLL.Services
 {
-    class GuestService : IGuestService
+    public class GuestService : IGuestService
     {
         private IWorkUnit Database { get; set; }
 
@@ -20,7 +20,7 @@ namespace HotelBLL.Services
             this.Database = database;
         }
 
-        public IEnumerable<GuestDTO> GetAllRooms()
+        public IEnumerable<GuestDTO> GetAllGuests()
         {
             var mapper = new MapperConfiguration(cfg =>
                 cfg.CreateMap<Guest, GuestDTO>()
