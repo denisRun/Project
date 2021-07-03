@@ -10,7 +10,7 @@ namespace WebApplication1.Models
     {
         [Key]
         public int Id { set; get; }
-        public string Name;
-        public string Surname;
+        public string Name { set; get; }
+        public string Surname { set; get; }
     }
 }
