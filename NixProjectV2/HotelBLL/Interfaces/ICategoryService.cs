@@ -12,6 +12,7 @@ namespace HotelBLL.Interfaces
         IEnumerable<CategoryDTO> GetAllCategories();
         CategoryDTO Get(int id);
         void Create(CategoryDTO id);
+        void Update(int id, CategoryDTO room);
         void Delete(int id);
     }
 }

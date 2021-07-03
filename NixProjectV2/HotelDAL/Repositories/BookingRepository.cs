@@ -33,6 +33,21 @@ namespace HotelDAL.Repositories
             db.Bookings.Add(booking);
         }
 
+        public void Update(int BookingId, Booking value)
+        {
+            var booking = db.Bookings.FirstOrDefault(m => m.Id == BookingId);
+            if (booking != null)
+            {
+                booking.GuestId = value.GuestId != 0 ? value.GuestId : booking.GuestId;
+                booking.RoomId = value.RoomId != 0 ? value.RoomId : booking.RoomId;
+                booking.Set = value.Set ?? booking.Set;
+                booking.BookingDate = value.BookingDate != null ? value.BookingDate : booking.BookingDate;
+                booking.EnterDate = value.EnterDate != null ? value.EnterDate : booking.EnterDate;
+                booking.LeaveDate = value.LeaveDate != null ? value.LeaveDate : booking.LeaveDate;
+            }
+
+        }
+
         public void Delete(int id)
         {
             Booking booking = Get(id);

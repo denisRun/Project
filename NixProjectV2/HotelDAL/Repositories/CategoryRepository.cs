@@ -33,6 +33,18 @@ namespace HotelDAL.Repositories
             db.Categories.Add(category);
         }
 
+        public void Update(int categoryId, Category value)
+        {
+            var category = db.Categories.FirstOrDefault(m => m.Id == categoryId);
+            if (category != null)
+            {
+                category.Name = value.Name ?? category.Name;
+                category.Price = value.Price != 0 ? value.Price : category.Price;
+                category.Bed = value.Bed != 0 ? value.Bed : category.Bed;
+            }
+
+        }
+
         public void Delete(int id)
         {
             Category category = Get(id);

@@ -48,6 +48,16 @@ namespace HotelBLL.Services
             Database.Save();
         }
 
+        public void Update(int id, GuestDTO guest)
+        {
+            var mapper = new MapperConfiguration(cfg =>
+                cfg.CreateMap<GuestDTO, Guest>()
+            ).CreateMapper();
+            var data = mapper.Map<GuestDTO, Guest>(guest);
+            Database.Guests.Update(id, data);
+            Database.Save();
+        }
+
         public void Delete(int id)
         {
             Database.Guests.Delete(id);

@@ -39,5 +39,16 @@ namespace HotelDAL.Repositories
             if (room != null)
                 db.Rooms.Remove(room);
         }
+
+        public void Update(int roomId, Room value)
+        {
+            var room = db.Rooms.FirstOrDefault(m => m.Id == roomId);
+            if (room != null)
+            {
+                room.CategoryId = value.CategoryId != 0 ? value.CategoryId : room.CategoryId;
+                room.Name = value.Name ?? room.Name;
+            }
+
+        }
     }
 }

@@ -65,8 +65,21 @@ namespace HotelAPI.Controllers
         }
 
 
-        public void Put(int id, [FromBody] CategoryModel value)
+        [ResponseType(typeof(CategoryModel))]
+        public HttpResponseMessage Put(HttpRequestMessage request, int id,
+            [FromBody] CategoryModel value)
         {
+            try
+            {
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CategoryModel, CategoryDTO>()).CreateMapper();
+                var data = mapper.Map<CategoryModel, CategoryDTO>(value);
+                service.Update(id, data);
+                return request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 

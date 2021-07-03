@@ -13,6 +13,7 @@ namespace HotelBLL.Interfaces
         GuestDTO Get(int id);
 
         void Create(GuestDTO id);
+        void Update(int id, GuestDTO room);
         void Delete(int id);
     }
 }

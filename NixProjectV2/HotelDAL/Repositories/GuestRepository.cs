@@ -33,6 +33,17 @@ namespace HotelDAL.Repositories
             db.Guests.Add(guest);
         }
 
+        public void Update(int guestId, Guest value)
+        {
+            var guest = db.Guests.FirstOrDefault(m => m.Id == guestId);
+            if (guest != null)
+            {
+                guest.Name = value.Name ?? guest.Name;
+                guest.Surname = value.Surname ?? guest.Surname;
+            }
+
+        }
+
         public void Delete(int id)
         {
             Guest guest = Get(id);

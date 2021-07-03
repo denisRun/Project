@@ -12,5 +12,6 @@ namespace HotelDAL.Interfaces
         T Get(int id);
         void Create(T item);
         void Delete(int id);
+        void Update(int id, T item);
     }
 }

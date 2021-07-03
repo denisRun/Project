@@ -86,11 +86,47 @@ namespace HotelAPI.Controllers
                 return request.CreateResponse(ex.Message);
             }  
         }
-        
 
 
-        public void Put(int id, [FromBody] BookingModel value)
+
+        [ResponseType(typeof(BookingModel))]
+        public HttpResponseMessage Put(HttpRequestMessage request, int id,
+            [FromBody] BookingModel value)
         {
+            try
+            {
+                var data = new BookingDTO()
+                {
+                    BookingGuest = new GuestDTO()
+                    {
+                        Id = value.BookingGuest.Id,
+                        Name = value.BookingGuest.Name,
+                        Surname = value.BookingGuest.Surname
+                    },
+                    BookingRoom = new RoomDTO()
+                    {
+                        Id = value.BookingRoom.Id,
+                        Name = value.BookingRoom.Name,
+                        RoomCategory = new CategoryDTO()
+                        {
+                            Id = value.BookingRoom.RoomCategory.Id,
+                            Name = value.BookingRoom.RoomCategory.Name,
+                            Price = value.BookingRoom.RoomCategory.Price,
+                            Bed = value.BookingRoom.RoomCategory.Bed
+                        }
+                    },
+                    BookingDate = value.BookingDate,
+                    EnterDate = value.EnterDate,
+                    LeaveDate = value.LeaveDate,
+                    Set = value.Set
+                };
+                service.Update(id, data);
+                return request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 

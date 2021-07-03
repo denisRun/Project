@@ -48,7 +48,7 @@ namespace HotelAPI.Controllers
             return request.CreateResponse(HttpStatusCode.NotFound);
         }
 
-
+        [ResponseType(typeof(RoomModel))]
         public HttpResponseMessage Post(HttpRequestMessage request, [FromBody] RoomModel value)
         {
             try
@@ -64,9 +64,21 @@ namespace HotelAPI.Controllers
             }
         }
 
-
-        public void Put(int id, [FromBody] RoomModel value)
+        [ResponseType(typeof(RoomModel))]
+        public HttpResponseMessage Put(HttpRequestMessage request, int id,
+            [FromBody] RoomModel value)
         {
+            try
+            {
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
+                var data = mapper.Map<RoomModel, RoomDTO>(value);
+                service.Update(id, data);
+                return request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 

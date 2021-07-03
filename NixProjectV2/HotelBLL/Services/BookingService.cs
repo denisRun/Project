@@ -69,6 +69,37 @@ namespace HotelBLL.Services
             Database.Save();
         }
 
+        public void Update(int id, BookingDTO value)
+        {
+            var data = new Booking()
+            {
+                BookingGuest = new Guest()
+                {
+                    Id = value.BookingGuest.Id,
+                    Name = value.BookingGuest.Name,
+                    Surname = value.BookingGuest.Surname
+                },
+                BookingRoom = new Room()
+                {
+                    Id = value.BookingRoom.Id,
+                    Name = value.BookingRoom.Name,
+                    RoomCategory = new Category()
+                    {
+                        Id = value.BookingRoom.RoomCategory.Id,
+                        Name = value.BookingRoom.RoomCategory.Name,
+                        Price = value.BookingRoom.RoomCategory.Price,
+                        Bed = value.BookingRoom.RoomCategory.Bed
+                    }
+                },
+                BookingDate = value.BookingDate,
+                EnterDate = value.EnterDate,
+                LeaveDate = value.LeaveDate,
+                Set = value.Set
+            };
+            Database.Bookings.Update(id, data);
+            Database.Save();
+        }
+
         public void Delete(int id)
         {
             Database.Bookings.Delete(id);
