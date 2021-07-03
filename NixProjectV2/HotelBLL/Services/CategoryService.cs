@@ -37,5 +37,21 @@ namespace HotelBLL.Services
 
             return mapper.Map<Category, CategoryDTO>(Database.Categories.Get(id));
         }
+
+        public void Create(CategoryDTO guest)
+        {
+            var mapper = new MapperConfiguration(cfg =>
+                cfg.CreateMap<CategoryDTO, Category>()
+            ).CreateMapper();
+            var data = mapper.Map<CategoryDTO, Category>(guest);
+            Database.Categories.Create(data);
+            Database.Save();
+        }
+
+        public void Delete(int id)
+        {
+            Database.Categories.Delete(id);
+            Database.Save();
+        }
     }
 }

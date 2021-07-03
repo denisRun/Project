@@ -25,8 +25,11 @@ namespace HotelAPI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             NinjectModule guestModule = new GuestModule();
+            NinjectModule roomModule = new RoomModule();
+            NinjectModule categoryModule = new CategoryModule();
+            NinjectModule bookingModule = new BookingModule();
             NinjectModule dependencyModule = new DependencyModule("HotelModel");
-            var kernel = new StandardKernel(guestModule, dependencyModule);
+            var kernel = new StandardKernel(guestModule, roomModule, categoryModule, bookingModule, dependencyModule);
             kernel.Bind<DefaultFilterProviders>().ToSelf().WithConstructorArgument(GlobalConfiguration.Configuration.Services.GetFilterProviders());
             kernel.Bind<DefaultModelValidatorProviders>().ToConstant(new DefaultModelValidatorProviders(GlobalConfiguration.Configuration.Services.GetModelValidatorProviders()));
             GlobalConfiguration.Configuration.DependencyResolver = new Ninject.Web.WebApi.NinjectDependencyResolver(kernel);

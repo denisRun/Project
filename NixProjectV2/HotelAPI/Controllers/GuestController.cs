@@ -49,8 +49,19 @@ namespace HotelAPI.Controllers
         }
 
 
-        public void Post([FromBody] GuestModel value)
+        public HttpResponseMessage Post(HttpRequestMessage request, [FromBody] GuestModel value)
         {
+            try
+            {
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
+                var data = mapper.Map<GuestModel, GuestDTO>(value);
+                service.Create(data);
+                return request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 
@@ -61,6 +72,7 @@ namespace HotelAPI.Controllers
 
         public void Delete(int id)
         {
+            service.Delete(id);
         }
     }
 }

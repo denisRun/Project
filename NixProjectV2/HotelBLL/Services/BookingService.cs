@@ -37,5 +37,42 @@ namespace HotelBLL.Services
 
             return mapper.Map<Booking, BookingDTO>(Database.Bookings.Get(id));
         }
+
+        public void Create(BookingDTO value)
+        {
+            var data = new Booking()
+            {
+                BookingGuest = new Guest()
+                {
+                    Id = value.BookingGuest.Id,
+                    Name = value.BookingGuest.Name,
+                    Surname = value.BookingGuest.Surname
+                },
+                BookingRoom = new Room()
+                {
+                    Id = value.BookingRoom.Id,
+                    Name = value.BookingRoom.Name,
+                    RoomCategory = new Category()
+                    {
+                        Id = value.BookingRoom.RoomCategory.Id,
+                        Name = value.BookingRoom.RoomCategory.Name,
+                        Price = value.BookingRoom.RoomCategory.Price,
+                        Bed = value.BookingRoom.RoomCategory.Bed
+                    }
+                },
+                BookingDate = value.BookingDate,
+                EnterDate = value.EnterDate,
+                LeaveDate = value.LeaveDate,
+                Set = value.Set
+            };
+            Database.Bookings.Create(data);
+            Database.Save();
+        }
+
+        public void Delete(int id)
+        {
+            Database.Bookings.Delete(id);
+            Database.Save();
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace HotelBLL.Interfaces
     {
         IEnumerable<RoomDTO> GetAllRooms();
         RoomDTO Get(int id);
+        void Create(RoomDTO id);
+        void Delete(int id);
     }
 }
