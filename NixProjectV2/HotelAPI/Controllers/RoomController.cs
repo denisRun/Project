@@ -27,20 +27,15 @@ namespace HotelAPI.Controllers
         [ResponseType(typeof(IEnumerable<RoomModel>))]
         public HttpResponseMessage Get(HttpRequestMessage request)
         {
-            try
+            var data = service.GetAllRooms();
+
+            if (data != null)
             {
-                var data = service.GetAllRooms();
-                if (data != null)
-                {
-                    var rooms = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(data);
-                    return request.CreateResponse(HttpStatusCode.OK, rooms);
-                }
-                return request.CreateResponse(HttpStatusCode.NotFound);
+                var rooms = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(data);
+                return request.CreateResponse(HttpStatusCode.OK, rooms);
             }
-            catch(Exception exception)
-            {
-                return request.CreateResponse(HttpStatusCode.NotFound);
-            }
+
+            return request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         [ResponseType(typeof(RoomModel))]
@@ -70,11 +65,13 @@ namespace HotelAPI.Controllers
             {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
                 var data = mapper.Map<RoomModel, RoomDTO>(value);
+
                 if (data != null)
                 {
                     service.Create(data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
+
                 return request.CreateResponse(HttpStatusCode.NoContent);
             }
             catch (Exception exception)
@@ -89,6 +86,7 @@ namespace HotelAPI.Controllers
             try
             {
                 var room = service.Get(id);
+
                 if (room != null)
                 {
                     var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
@@ -96,6 +94,7 @@ namespace HotelAPI.Controllers
                     service.Update(id, data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
+
                 return request.CreateResponse(HttpStatusCode.NotFound);
             }
             catch (Exception exception)
@@ -110,11 +109,13 @@ namespace HotelAPI.Controllers
             try
             {
                 var room = service.Get(id);
+
                 if (room != null)
                 {
                     service.Delete(id);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
+
                 return request.CreateResponse(HttpStatusCode.NotFound);
             }
             catch (Exception exception)
