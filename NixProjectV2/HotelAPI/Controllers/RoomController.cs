@@ -24,67 +24,101 @@ namespace HotelAPI.Controllers
                 cfg.CreateMap<RoomDTO, RoomModel>()).CreateMapper();
         }
 
-
-        public IEnumerable<RoomModel> Get()
+        [ResponseType(typeof(IEnumerable<RoomModel>))]
+        public HttpResponseMessage Get(HttpRequestMessage request)
         {
-            var data = service.GetAllRooms();
-            var rooms = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(data);
+            try
+            {
+                var data = service.GetAllRooms();
+                var rooms = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(data);
 
-            return rooms;
+                return request.CreateResponse(HttpStatusCode.OK, rooms);
+            }
+            catch(Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
         }
 
         [ResponseType(typeof(RoomModel))]
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
-            RoomDTO data = service.Get(id);
-            var room = new RoomModel();
-
-            if (data != null)
+            try
             {
-                room = mapper.Map<RoomDTO, RoomModel>(data);
-                return request.CreateResponse(HttpStatusCode.OK, room);
-            }
+                RoomDTO data = service.Get(id);
 
-            return request.CreateResponse(HttpStatusCode.NotFound);
+                if (data != null)
+                {
+                    var room = mapper.Map<RoomDTO, RoomModel>(data);
+                    return request.CreateResponse(HttpStatusCode.OK, room);
+                }
+
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
-        [ResponseType(typeof(RoomModel))]
         public HttpResponseMessage Post(HttpRequestMessage request, [FromBody] RoomModel value)
         {
             try
             {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
                 var data = mapper.Map<RoomModel, RoomDTO>(value);
-                service.Create(data);
-                return request.CreateResponse(HttpStatusCode.OK);
+                if (data != null)
+                {
+                    service.Create(data);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NoContent);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
-        [ResponseType(typeof(RoomModel))]
         public HttpResponseMessage Put(HttpRequestMessage request, int id,
             [FromBody] RoomModel value)
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
-                var data = mapper.Map<RoomModel, RoomDTO>(value);
-                service.Update(id, data);
-                return request.CreateResponse(HttpStatusCode.OK);
+                var room = service.Get(id);
+                if (room != null)
+                {
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
+                    var data = mapper.Map<RoomModel, RoomDTO>(value);
+                    service.Update(id, data);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
 
-        public void Delete(int id)
+        public HttpResponseMessage Delete(HttpRequestMessage request,int id)
         {
-            service.Delete(id);
+            try
+            {
+                var room = service.Get(id);
+                if (room != null)
+                {
+                    service.Delete(id);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
         }
     }
 }
