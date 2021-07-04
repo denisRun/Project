@@ -30,9 +30,12 @@ namespace HotelAPI.Controllers
             try
             {
                 var data = service.GetAllRooms();
-                var rooms = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(data);
-
-                return request.CreateResponse(HttpStatusCode.OK, rooms);
+                if (data != null)
+                {
+                    var rooms = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(data);
+                    return request.CreateResponse(HttpStatusCode.OK, rooms);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
             catch(Exception exception)
             {
