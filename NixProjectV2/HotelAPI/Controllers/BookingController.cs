@@ -24,28 +24,39 @@ namespace HotelAPI.Controllers
                 cfg.CreateMap<BookingDTO, BookingModel>()).CreateMapper();
         }
 
-
-        public IEnumerable<BookingModel> Get()
+        [ResponseType(typeof(IEnumerable<BookingModel>))]
+        public HttpResponseMessage Get(HttpRequestMessage request)
         {
             var data = service.GetAllBookings();
-            var bookings = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(data);
 
-            return bookings;
+            if (data != null)
+            {
+                var bookings = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(data);
+                return request.CreateResponse(HttpStatusCode.OK,bookings);
+            }
+
+            return request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         [ResponseType(typeof(BookingModel))]
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
-            BookingDTO data = service.Get(id);
-            var booking = new BookingModel();
-
-            if (data != null)
+            try
             {
-                booking = mapper.Map<BookingDTO, BookingModel>(data);
-                return request.CreateResponse(HttpStatusCode.OK, booking);
-            }
+                BookingDTO data = service.Get(id);
 
-            return request.CreateResponse(HttpStatusCode.NotFound);
+                if (data != null)
+                {
+                    var booking = mapper.Map<BookingDTO, BookingModel>(data);
+                    return request.CreateResponse(HttpStatusCode.OK, booking);
+                }
+
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
         [ResponseType(typeof(BookingModel))]
@@ -78,18 +89,23 @@ namespace HotelAPI.Controllers
                     LeaveDate = value.LeaveDate,
                     Set = value.Set
                 };
-                service.Create(data);
-                return request.CreateResponse(HttpStatusCode.OK);
+
+                if (data != null)
+                {
+                    service.Create(data);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+
+                return request.CreateResponse(HttpStatusCode.NoContent);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return request.CreateResponse(ex.Message);
-            }  
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 
 
-        [ResponseType(typeof(BookingModel))]
         public HttpResponseMessage Put(HttpRequestMessage request, int id,
             [FromBody] BookingModel value)
         {
@@ -120,10 +136,16 @@ namespace HotelAPI.Controllers
                     LeaveDate = value.LeaveDate,
                     Set = value.Set
                 };
-                service.Update(id, data);
-                return request.CreateResponse(HttpStatusCode.OK);
+
+                if (data != null)
+                {
+                    service.Update(id, data);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
@@ -136,23 +158,28 @@ namespace HotelAPI.Controllers
             try
             {
                 var bookings = service.GetAllBookings();
-                Dictionary<string, decimal> money = new Dictionary<string, decimal>();
-                foreach(var booking in bookings)
+
+                if (bookings != null)
                 {
-                    string key = booking.EnterDate.ToString("yyyy.MM");
-                    decimal sum = Decimal.Parse((booking.LeaveDate - booking.EnterDate).TotalDays.ToString()) * booking.BookingRoom.RoomCategory.Price;
-                    if (money.ContainsKey(key))
+                    Dictionary<string, decimal> money = new Dictionary<string, decimal>();
+
+                    foreach (var booking in bookings)
                     {
-                        money[key] += sum;
+                        string key = booking.EnterDate.ToString("yyyy.MM");
+                        decimal sum = Decimal.Parse((booking.LeaveDate - booking.EnterDate).TotalDays.ToString()) * booking.BookingRoom.RoomCategory.Price;
+
+                        if (money.ContainsKey(key))
+                            money[key] += sum;
+                        else
+                            money.Add(key, sum);
                     }
-                    else
-                    {
-                        money.Add(key, sum);
-                    }
+
+                    return request.CreateResponse(HttpStatusCode.OK, money);
                 }
-                return request.CreateResponse(HttpStatusCode.OK, money);
+
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
@@ -167,23 +194,41 @@ namespace HotelAPI.Controllers
             try
             {
                 var booking = service.Get(id);
+
                 if (booking != null)
                 {
                     booking.Set = "yes";
                     service.Update(id, booking);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
+
                 return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
-        public void Delete(int id)
+        public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
-            service.Delete(id);
+            try
+            {
+                var booking = service.Get(id);
+
+                if (booking != null)
+                {
+                    service.Delete(id);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
         }
     }
 }
