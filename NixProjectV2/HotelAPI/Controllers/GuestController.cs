@@ -24,28 +24,45 @@ namespace HotelAPI.Controllers
                 cfg.CreateMap<GuestDTO, GuestModel>()).CreateMapper();
         }
 
-
-        public IEnumerable<GuestModel> Get()
+        [ResponseType(typeof(IEnumerable<GuestModel>))]
+        public HttpResponseMessage Get(HttpRequestMessage request)
         {
-            var data = service.GetAllGuests();
-            var guests = mapper.Map<IEnumerable<GuestDTO>, List<GuestModel>>(data);
-
-            return guests;
+            try
+            {
+                var data = service.GetAllGuests();
+                if (data != null)
+                {
+                    var guests = mapper.Map<IEnumerable<GuestDTO>, List<GuestModel>>(data);
+                    return request.CreateResponse(HttpStatusCode.OK, guests);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
         [ResponseType(typeof(GuestModel))]
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
-            GuestDTO data = service.Get(id);
-            var guest = new GuestModel();
-
-            if (data != null)
+            try
             {
-                guest = mapper.Map<GuestDTO, GuestModel>(data);
-                return request.CreateResponse(HttpStatusCode.OK, guest);
-            }
+                GuestDTO data = service.Get(id);
+                var guest = new GuestModel();
 
-            return request.CreateResponse(HttpStatusCode.NotFound);
+                if (data != null)
+                {
+                    guest = mapper.Map<GuestDTO, GuestModel>(data);
+                    return request.CreateResponse(HttpStatusCode.OK, guest);
+                }
+
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
 
@@ -55,37 +72,59 @@ namespace HotelAPI.Controllers
             {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
                 var data = mapper.Map<GuestModel, GuestDTO>(value);
-                service.Create(data);
-                return request.CreateResponse(HttpStatusCode.OK);
+                if (data != null)
+                {
+                    service.Create(data);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NoContent);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
 
-        [ResponseType(typeof(GuestModel))]
         public HttpResponseMessage Put(HttpRequestMessage request, int id,
             [FromBody] GuestModel value)
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
-                var data = mapper.Map<GuestModel, GuestDTO>(value);
-                service.Update(id, data);
-                return request.CreateResponse(HttpStatusCode.OK);
+                var guest = service.Get(id);
+                if (guest != null)
+                {
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
+                    var data = mapper.Map<GuestModel, GuestDTO>(value);
+                    service.Update(id, data);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
 
-        public void Delete(int id)
+        public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
-            service.Delete(id);
+            try
+            {
+                var guest = service.Get(id);
+                if (guest != null)
+                {
+                    service.Delete(id);
+                    return request.CreateResponse(HttpStatusCode.OK);
+                }
+                return request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
         }
     }
 }
