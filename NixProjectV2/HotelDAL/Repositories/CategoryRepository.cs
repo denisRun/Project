@@ -39,8 +39,8 @@ namespace HotelDAL.Repositories
             if (category != null)
             {
                 category.Name = value.Name ?? category.Name;
-                category.Price = value.Price != 0 ? value.Price : category.Price;
-                category.Bed = value.Bed != 0 ? value.Bed : category.Bed;
+                category.Price = value.Price > 0 ? value.Price : category.Price;
+                category.Bed = value.Bed > 0 ? value.Bed : category.Bed;
             }
 
         }

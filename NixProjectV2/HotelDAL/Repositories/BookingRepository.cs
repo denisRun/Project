@@ -38,8 +38,8 @@ namespace HotelDAL.Repositories
             var booking = db.Bookings.FirstOrDefault(m => m.Id == BookingId);
             if (booking != null)
             {
-                booking.GuestId = value.GuestId != 0 ? value.GuestId : booking.GuestId;
-                booking.RoomId = value.RoomId != 0 ? value.RoomId : booking.RoomId;
+                booking.GuestId = value.GuestId > 0 ? value.GuestId : booking.GuestId;
+                booking.RoomId = value.RoomId > 0 ? value.RoomId : booking.RoomId;
                 booking.Set = value.Set ?? booking.Set;
                 booking.BookingDate = value.BookingDate != null ? value.BookingDate : booking.BookingDate;
                 booking.EnterDate = value.EnterDate != null ? value.EnterDate : booking.EnterDate;

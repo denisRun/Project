@@ -32,7 +32,7 @@ namespace HotelAPI.Controllers
             if (data != null)
             {
                 var bookings = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(data);
-                return request.CreateResponse(HttpStatusCode.OK,bookings);
+                return request.CreateResponse(HttpStatusCode.OK, bookings);
             }
 
             return request.CreateResponse(HttpStatusCode.NotFound);
@@ -90,13 +90,8 @@ namespace HotelAPI.Controllers
                     Set = value.Set
                 };
 
-                if (data != null)
-                {
-                    service.Create(data);
-                    return request.CreateResponse(HttpStatusCode.OK);
-                }
-
-                return request.CreateResponse(HttpStatusCode.NoContent);
+                service.Create(data);
+                return request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception exception)
             {
@@ -111,34 +106,36 @@ namespace HotelAPI.Controllers
         {
             try
             {
-                var data = new BookingDTO()
-                {
-                    BookingGuest = new GuestDTO()
-                    {
-                        Id = value.BookingGuest.Id,
-                        Name = value.BookingGuest.Name,
-                        Surname = value.BookingGuest.Surname
-                    },
-                    BookingRoom = new RoomDTO()
-                    {
-                        Id = value.BookingRoom.Id,
-                        Name = value.BookingRoom.Name,
-                        RoomCategory = new CategoryDTO()
-                        {
-                            Id = value.BookingRoom.RoomCategory.Id,
-                            Name = value.BookingRoom.RoomCategory.Name,
-                            Price = value.BookingRoom.RoomCategory.Price,
-                            Bed = value.BookingRoom.RoomCategory.Bed
-                        }
-                    },
-                    BookingDate = value.BookingDate,
-                    EnterDate = value.EnterDate,
-                    LeaveDate = value.LeaveDate,
-                    Set = value.Set
-                };
+                var booking = service.Get(id);
 
-                if (data != null)
+                if (booking != null)
                 {
+                    var data = new BookingDTO()
+                    {
+                        BookingGuest = new GuestDTO()
+                        {
+                            Id = value.BookingGuest.Id,
+                            Name = value.BookingGuest.Name,
+                            Surname = value.BookingGuest.Surname
+                        },
+                        BookingRoom = new RoomDTO()
+                        {
+                            Id = value.BookingRoom.Id,
+                            Name = value.BookingRoom.Name,
+                            RoomCategory = new CategoryDTO()
+                            {
+                                Id = value.BookingRoom.RoomCategory.Id,
+                                Name = value.BookingRoom.RoomCategory.Name,
+                                Price = value.BookingRoom.RoomCategory.Price,
+                                Bed = value.BookingRoom.RoomCategory.Bed
+                            }
+                        },
+                        BookingDate = value.BookingDate,
+                        EnterDate = value.EnterDate,
+                        LeaveDate = value.LeaveDate,
+                        Set = value.Set
+                    };
+
                     service.Update(id, data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -185,7 +182,7 @@ namespace HotelAPI.Controllers
             }
         }
 
-        
+
 
         [Route("api/Booking/Registration/{id}")]
         [HttpPut]

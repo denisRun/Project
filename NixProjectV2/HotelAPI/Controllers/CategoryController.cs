@@ -28,6 +28,7 @@ namespace HotelAPI.Controllers
         public HttpResponseMessage Get(HttpRequestMessage request)
         {
             var data = service.GetAllCategories();
+
             if (data != null)
             {
                 var categories = mapper.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(data);
@@ -65,13 +66,8 @@ namespace HotelAPI.Controllers
             {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CategoryModel, CategoryDTO>()).CreateMapper();
                 var data = mapper.Map<CategoryModel, CategoryDTO>(value);
-                if (data != null)
-                {
-                    service.Create(data);
-                    return request.CreateResponse(HttpStatusCode.OK);
-                }
-
-                return request.CreateResponse(HttpStatusCode.NoContent);
+                service.Create(data);
+                return request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception exception)
             {
@@ -86,10 +82,12 @@ namespace HotelAPI.Controllers
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CategoryModel, CategoryDTO>()).CreateMapper();
-                var data = mapper.Map<CategoryModel, CategoryDTO>(value);
-                if (data != null)
+                var category = service.Get(id);
+
+                if (category != null)
                 {
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CategoryModel, CategoryDTO>()).CreateMapper();
+                    var data = mapper.Map<CategoryModel, CategoryDTO>(value);
                     service.Update(id, data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }

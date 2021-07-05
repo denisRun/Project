@@ -45,7 +45,7 @@ namespace HotelDAL.Repositories
             var room = db.Rooms.FirstOrDefault(m => m.Id == roomId);
             if (room != null)
             {
-                room.CategoryId = value.CategoryId != 0 ? value.CategoryId : room.CategoryId;
+                room.CategoryId = value.CategoryId > 0 ? value.CategoryId : room.CategoryId;
                 room.Name = value.Name ?? room.Name;
             }
 

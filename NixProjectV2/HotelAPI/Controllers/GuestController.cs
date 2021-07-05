@@ -68,13 +68,8 @@ namespace HotelAPI.Controllers
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
                 var data = mapper.Map<GuestModel, GuestDTO>(value);
 
-                if (data != null)
-                {
-                    service.Create(data);
-                    return request.CreateResponse(HttpStatusCode.OK);
-                }
-
-                return request.CreateResponse(HttpStatusCode.NoContent);
+                service.Create(data);
+                return request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception exception)
             {
