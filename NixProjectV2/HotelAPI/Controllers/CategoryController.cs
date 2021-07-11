@@ -41,6 +41,11 @@ namespace HotelAPI.Controllers
         [ResponseType(typeof(CategoryModel))]
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
+            if (id < 1)
+            {
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
             try
             {
                 CategoryDTO data = service.Get(id);
