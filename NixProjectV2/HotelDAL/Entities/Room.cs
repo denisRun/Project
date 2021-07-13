@@ -17,5 +17,21 @@ namespace HotelDAL.Entities
 
         [ForeignKey("CategoryId")]
         public virtual Category RoomCategory { set; get; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Room)
+            {
+                var objCM = obj as Room;
+                return this.Id == objCM.Id &&
+                    this.Name == objCM.Name &&
+                    this.RoomCategory.Equals(objCM.RoomCategory);
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+
+        }
     }
 }

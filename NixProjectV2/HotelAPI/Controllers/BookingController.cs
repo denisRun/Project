@@ -43,6 +43,10 @@ namespace HotelAPI.Controllers
         {
             try
             {
+                if (id < 1)
+                {
+                    return request.CreateResponse(HttpStatusCode.BadRequest);
+                }
                 BookingDTO data = service.Get(id);
 
                 if (data != null)

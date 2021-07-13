@@ -60,6 +60,9 @@ namespace HotelBLL.Services
                         Bed = value.BookingRoom.RoomCategory.Bed
                     }
                 },
+                Id = value.Id,
+                GuestId = value.BookingGuest.Id,
+                RoomId = value.BookingRoom.Id,
                 BookingDate = value.BookingDate,
                 EnterDate = value.EnterDate,
                 LeaveDate = value.LeaveDate,
@@ -91,6 +94,9 @@ namespace HotelBLL.Services
                         Bed = value.BookingRoom.RoomCategory.Bed
                     }
                 },
+                Id = value.Id,
+                GuestId = value.BookingGuest.Id,
+                RoomId = value.BookingRoom.Id,
                 BookingDate = value.BookingDate,
                 EnterDate = value.EnterDate,
                 LeaveDate = value.LeaveDate,

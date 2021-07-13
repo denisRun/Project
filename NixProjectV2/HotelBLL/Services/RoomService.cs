@@ -32,10 +32,10 @@ namespace HotelBLL.Services
         public RoomDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<Room, RoomDTO>()
+            cfg.CreateMap<Room, RoomDTO>()
             ).CreateMapper();
-
-            return mapper.Map<Room, RoomDTO>(Database.Rooms.Get(id));
+            var room = Database.Rooms.Get(id);
+            return mapper.Map<Room, RoomDTO>(room);
         }
 
         public void Create(RoomDTO guest)

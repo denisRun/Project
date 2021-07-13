@@ -43,9 +43,14 @@ namespace HotelAPI.Controllers
         {
             try
             {
+                if (id < 1)
+                {
+                    return request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+
                 RoomDTO data = service.Get(id);
 
-                if (data != null)
+                if (data.Id != 0)
                 {
                     var room = mapper.Map<RoomDTO, RoomModel>(data);
                     return request.CreateResponse(HttpStatusCode.OK, room);
