@@ -196,7 +196,7 @@ namespace HotelAPI.Controllers
             {
                 var booking = service.Get(id);
 
-                if (booking != null)
+                if (booking.Id > 0)
                 {
                     booking.Set = "yes";
                     service.Update(id, booking);

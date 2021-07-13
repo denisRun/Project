@@ -155,6 +155,39 @@ namespace HotelTests.ControllersTest
         }
 
         [TestMethod]
+        public void BookingMoneyPerMonthGetTest ()
+        {
+            var bookings = TestData.BookingList;
+            var bookingsDTO = mapper.Map<List<Booking>, List<BookingDTO>>(bookings);
+            EFWorkUnitMock.Setup(a => a.Bookings.GetAll()).Returns(bookings);
+            BookingServiceMock.Setup(a => a.GetAllBookings()).Returns(bookingsDTO);
+
+            var bookingService = new BookingService(EFWorkUnitMock.Object);
+            BookingController controller = new BookingController(BookingServiceMock.Object);
+
+            var response = controller.MoneyPerMonthGet(request);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [TestMethod]
+        public void BookingRegistration()
+        {
+            var id = 1;
+            var booking = TestData.BookingList[id - 1];
+            var bookingDTO = mapper.Map<Booking, BookingDTO>(booking);
+            EFWorkUnitMock.Setup(a => a.Bookings.Get(id)).Returns(booking);
+            BookingServiceMock.Setup(a => a.Get(id)).Returns(bookingDTO);
+
+            var bookingService = new BookingService(EFWorkUnitMock.Object);
+            BookingController controller = new BookingController(BookingServiceMock.Object);
+
+            var response = controller.RegistrationPut(request, id);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [TestMethod]
         public void BookingPostTest()
         {
             BookingModel booking = new BookingModel()

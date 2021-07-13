@@ -52,7 +52,7 @@ namespace HotelTests.ServicesTest
         }
 
         [TestMethod]
-        public void bookingCreateTest()
+        public void BookingCreateTest()
         {
             var booking = new BookingDTO()
             {
@@ -84,7 +84,7 @@ namespace HotelTests.ServicesTest
         }
 
         [TestMethod]
-        public void bookingUpdateTest()
+        public void BookingUpdateTest()
         {
             var id = 2;
             var booking = bookings[id - 1];
@@ -99,7 +99,7 @@ namespace HotelTests.ServicesTest
         }
 
         [TestMethod]
-        public void bookingDeleteTest()
+        public void BookingDeleteTest()
         {
             var id = 1;
 
