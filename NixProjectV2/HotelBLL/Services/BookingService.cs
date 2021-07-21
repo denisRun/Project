@@ -14,93 +14,88 @@ namespace HotelBLL.Services
     public class BookingService : IBookingService
     {
         private IWorkUnit Database { get; set; }
+        private IMapper mapperModelToDto;
 
         public BookingService(IWorkUnit database)
         {
             this.Database = database;
+            mapperModelToDto = new MapperConfiguration(cfg =>
+                cfg.CreateMap<Booking, BookingDTO>()).CreateMapper();
         }
 
         public IEnumerable<BookingDTO> GetAllBookings()
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<Booking, BookingDTO>()
-            ).CreateMapper();
-
-            return mapper.Map<IEnumerable<Booking>, List<BookingDTO>>(Database.Bookings.GetAll());
+            return mapperModelToDto.Map<IEnumerable<Booking>, List<BookingDTO>>(Database.Bookings.GetAll());
         }
 
         public BookingDTO Get(int id)
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<Booking, BookingDTO>()
-            ).CreateMapper();
-
-            return mapper.Map<Booking, BookingDTO>(Database.Bookings.Get(id));
+            return mapperModelToDto.Map<Booking, BookingDTO>(Database.Bookings.Get(id));
         }
 
-        public void Create(BookingDTO value)
+        public void Create(BookingDTO booking)
         {
             var data = new Booking()
             {
                 BookingGuest = new Guest()
                 {
-                    Id = value.BookingGuest.Id,
-                    Name = value.BookingGuest.Name,
-                    Surname = value.BookingGuest.Surname
+                    Id = booking.BookingGuest.Id,
+                    Name = booking.BookingGuest.Name,
+                    Surname = booking.BookingGuest.Surname
                 },
                 BookingRoom = new Room()
                 {
-                    Id = value.BookingRoom.Id,
-                    Name = value.BookingRoom.Name,
+                    Id = booking.BookingRoom.Id,
+                    Name = booking.BookingRoom.Name,
                     RoomCategory = new Category()
                     {
-                        Id = value.BookingRoom.RoomCategory.Id,
-                        Name = value.BookingRoom.RoomCategory.Name,
-                        Price = value.BookingRoom.RoomCategory.Price,
-                        Bed = value.BookingRoom.RoomCategory.Bed
+                        Id = booking.BookingRoom.RoomCategory.Id,
+                        Name = booking.BookingRoom.RoomCategory.Name,
+                        Price = booking.BookingRoom.RoomCategory.Price,
+                        Bed = booking.BookingRoom.RoomCategory.Bed
                     }
                 },
-                Id = value.Id,
-                GuestId = value.BookingGuest.Id,
-                RoomId = value.BookingRoom.Id,
-                BookingDate = value.BookingDate,
-                EnterDate = value.EnterDate,
-                LeaveDate = value.LeaveDate,
-                Set = value.Set
+                Id = booking.Id,
+                GuestId = booking.BookingGuest.Id,
+                RoomId = booking.BookingRoom.Id,
+                BookingDate = booking.BookingDate,
+                EnterDate = booking.EnterDate,
+                LeaveDate = booking.LeaveDate,
+                Set = booking.Set
             };
             Database.Bookings.Create(data);
             Database.Save();
         }
 
-        public void Update(int id, BookingDTO value)
+        public void Update(int id, BookingDTO booking)
         {
             var data = new Booking()
             {
                 BookingGuest = new Guest()
                 {
-                    Id = value.BookingGuest.Id,
-                    Name = value.BookingGuest.Name,
-                    Surname = value.BookingGuest.Surname
+                    Id = booking.BookingGuest.Id,
+                    Name = booking.BookingGuest.Name,
+                    Surname = booking.BookingGuest.Surname
                 },
                 BookingRoom = new Room()
                 {
-                    Id = value.BookingRoom.Id,
-                    Name = value.BookingRoom.Name,
+                    Id = booking.BookingRoom.Id,
+                    Name = booking.BookingRoom.Name,
                     RoomCategory = new Category()
                     {
-                        Id = value.BookingRoom.RoomCategory.Id,
-                        Name = value.BookingRoom.RoomCategory.Name,
-                        Price = value.BookingRoom.RoomCategory.Price,
-                        Bed = value.BookingRoom.RoomCategory.Bed
+                        Id = booking.BookingRoom.RoomCategory.Id,
+                        Name = booking.BookingRoom.RoomCategory.Name,
+                        Price = booking.BookingRoom.RoomCategory.Price,
+                        Bed = booking.BookingRoom.RoomCategory.Bed
                     }
                 },
-                Id = value.Id,
-                GuestId = value.BookingGuest.Id,
-                RoomId = value.BookingRoom.Id,
-                BookingDate = value.BookingDate,
-                EnterDate = value.EnterDate,
-                LeaveDate = value.LeaveDate,
-                Set = value.Set
+                Id = booking.Id,
+                GuestId = booking.BookingGuest.Id,
+                RoomId = booking.BookingRoom.Id,
+                BookingDate = booking.BookingDate,
+                EnterDate = booking.EnterDate,
+                LeaveDate = booking.LeaveDate,
+                Set = booking.Set
             };
             Database.Bookings.Update(id, data);
             Database.Save();

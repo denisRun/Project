@@ -44,8 +44,9 @@ namespace HotelTests
         public void CategoryGetByIdTypeIsCategoryModel()
         {
             int id = 1;
-
-            CategoryServiceMock.Setup(a => a.Get(id)).Returns(new CategoryDTO());
+            var category = TestData.CategoryList[id - 1];
+            var categoryDTO = mapper.Map<Category, CategoryDTO>(category);
+            CategoryServiceMock.Setup(a => a.Get(id)).Returns(categoryDTO);
 
             CategoryController controller = new CategoryController(CategoryServiceMock.Object);
 
@@ -88,9 +89,11 @@ namespace HotelTests
         public void CategoryGetByIdIsNotNull()
         {
             int id = 1;
+            var category = TestData.CategoryList[id - 1];
+            var categoryDTO = mapper.Map<Category, CategoryDTO>(category);
 
-            EFWorkUnitMock.Setup(a => a.Categories.Get(id)).Returns(new Category());
-            CategoryServiceMock.Setup(a => a.Get(id)).Returns(new CategoryDTO());
+            EFWorkUnitMock.Setup(a => a.Categories.Get(id)).Returns(category);
+            CategoryServiceMock.Setup(a => a.Get(id)).Returns(categoryDTO);
 
             var categoryService = new CategoryService(EFWorkUnitMock.Object);
             CategoryController controller = new CategoryController(CategoryServiceMock.Object);
@@ -120,9 +123,11 @@ namespace HotelTests
         public void CategoryGetByIdTest()
         {
             int id = 1;
+            var category = TestData.CategoryList[id - 1];
+            var categoryDTO = mapper.Map<Category, CategoryDTO>(category);
 
-            EFWorkUnitMock.Setup(a => a.Categories.Get(id)).Returns(new Category());
-            CategoryServiceMock.Setup(a => a.Get(id)).Returns(new CategoryDTO());
+            EFWorkUnitMock.Setup(a => a.Categories.Get(id)).Returns(category);
+            CategoryServiceMock.Setup(a => a.Get(id)).Returns(categoryDTO);
 
             var categoryService = new CategoryService(EFWorkUnitMock.Object);
             CategoryController controller = new CategoryController(CategoryServiceMock.Object);

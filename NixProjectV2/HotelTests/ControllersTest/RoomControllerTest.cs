@@ -43,8 +43,10 @@ namespace HotelTests.ControllersTest
         public void RoomGetByIdTypeIsRoomModel()
         {
             int id = 1;
+            var room = TestData.RoomList[id - 1];
+            var roomDTO = mapper.Map<Room, RoomDTO>(room);
 
-            RoomServiceMock.Setup(a => a.Get(id)).Returns(new RoomDTO());
+            RoomServiceMock.Setup(a => a.Get(id)).Returns(roomDTO);
 
             RoomController controller = new RoomController(RoomServiceMock.Object);
 
@@ -87,9 +89,11 @@ namespace HotelTests.ControllersTest
         public void RoomGetByIdIsNotNull()
         {
             int id = 1;
+            var room = TestData.RoomList[id - 1];
+            var roomDTO = mapper.Map<Room, RoomDTO>(room);
 
-            EFWorkUnitMock.Setup(a => a.Rooms.Get(id)).Returns(new Room());
-            RoomServiceMock.Setup(a => a.Get(id)).Returns(new RoomDTO());
+            EFWorkUnitMock.Setup(a => a.Rooms.Get(id)).Returns(room);
+            RoomServiceMock.Setup(a => a.Get(id)).Returns(roomDTO);
 
             var roomService = new RoomService(EFWorkUnitMock.Object);
             RoomController controller = new RoomController(RoomServiceMock.Object);

@@ -27,9 +27,7 @@ namespace HotelDAL.Repositories
             get
             {
                 if (guestRepository == null)
-                {
                     guestRepository = new GuestRepository(db);
-                }
 
                 return guestRepository;
             }
@@ -40,9 +38,7 @@ namespace HotelDAL.Repositories
             get
             {
                 if (roomRepository == null)
-                {
                     roomRepository = new RoomRepository(db);
-                }
 
                 return roomRepository;
             }
@@ -53,9 +49,7 @@ namespace HotelDAL.Repositories
             get
             {
                 if (bookingRepository == null)
-                {
                     bookingRepository = new BookingRepository(db);
-                }
 
                 return bookingRepository;
             }
@@ -66,9 +60,7 @@ namespace HotelDAL.Repositories
             get
             {
                 if (categoryRepository == null)
-                {
                     categoryRepository = new CategoryRepository(db);
-                }
 
                 return categoryRepository;
             }

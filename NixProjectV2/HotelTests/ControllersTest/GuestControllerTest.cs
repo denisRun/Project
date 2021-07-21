@@ -43,8 +43,10 @@ namespace HotelTests.ControllersTest
         public void GuestGetByIdTypeIsGuestModel()
         {
             int id = 1;
+            var guest = TestData.GuestList[id - 1];
+            var guestDTO = mapper.Map<Guest, GuestDTO>(guest);
 
-            GuestServiceMock.Setup(a => a.Get(id)).Returns(new GuestDTO());
+            GuestServiceMock.Setup(a => a.Get(id)).Returns(guestDTO);
 
             GuestController controller = new GuestController(GuestServiceMock.Object);
 
@@ -87,9 +89,11 @@ namespace HotelTests.ControllersTest
         public void GuestGetByIdIsNotNull()
         {
             int id = 1;
+            var guest = TestData.GuestList[id - 1];
+            var guestDTO = mapper.Map<Guest, GuestDTO>(guest);
 
-            EFWorkUnitMock.Setup(a => a.Guests.Get(id)).Returns(new Guest());
-            GuestServiceMock.Setup(a => a.Get(id)).Returns(new GuestDTO());
+            EFWorkUnitMock.Setup(a => a.Guests.Get(id)).Returns(guest);
+            GuestServiceMock.Setup(a => a.Get(id)).Returns(guestDTO);
 
             var guestService = new GuestService(EFWorkUnitMock.Object);
             GuestController controller = new GuestController(GuestServiceMock.Object);

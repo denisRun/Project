@@ -14,46 +14,38 @@ namespace HotelBLL.Services
     public class GuestService : IGuestService
     {
         private IWorkUnit Database { get; set; }
+        private IMapper mapperModelToDto;
+        private IMapper mapperDtoToModel;
 
         public GuestService(IWorkUnit database)
         {
             this.Database = database;
+            mapperModelToDto = new MapperConfiguration(cfg =>
+                cfg.CreateMap<Guest, GuestDTO>()).CreateMapper();
+            mapperDtoToModel = new MapperConfiguration(cfg =>
+                cfg.CreateMap<GuestDTO, Guest>()).CreateMapper();
         }
 
         public IEnumerable<GuestDTO> GetAllGuests()
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<Guest, GuestDTO>()
-            ).CreateMapper();
-
-            return mapper.Map<IEnumerable<Guest>, List<GuestDTO>>(Database.Guests.GetAll());
+            return mapperModelToDto.Map<IEnumerable<Guest>, List<GuestDTO>>(Database.Guests.GetAll());
         }
 
         public GuestDTO Get(int id)
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<Guest, GuestDTO>()
-            ).CreateMapper();
-
-            return mapper.Map<Guest, GuestDTO>(Database.Guests.Get(id));
+            return mapperModelToDto.Map<Guest, GuestDTO>(Database.Guests.Get(id));
         }
 
         public void Create(GuestDTO guest)
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<GuestDTO, Guest>()
-            ).CreateMapper();
-            var data = mapper.Map<GuestDTO, Guest>(guest);
+            var data = mapperDtoToModel.Map<GuestDTO, Guest>(guest);
             Database.Guests.Create(data);
             Database.Save();
         }
 
         public void Update(int id, GuestDTO guest)
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<GuestDTO, Guest>()
-            ).CreateMapper();
-            var data = mapper.Map<GuestDTO, Guest>(guest);
+            var data = mapperDtoToModel.Map<GuestDTO, Guest>(guest);
             Database.Guests.Update(id, data);
             Database.Save();
         }

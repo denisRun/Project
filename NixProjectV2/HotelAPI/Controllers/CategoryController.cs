@@ -42,15 +42,13 @@ namespace HotelAPI.Controllers
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
             if (id < 1)
-            {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
-            }
 
             try
             {
                 CategoryDTO data = service.Get(id);
 
-                if (data != null)
+                if (data.Id != 0)
                 {
                     var category = mapper.Map<CategoryDTO, CategoryModel>(data);
                     return request.CreateResponse(HttpStatusCode.OK, category);

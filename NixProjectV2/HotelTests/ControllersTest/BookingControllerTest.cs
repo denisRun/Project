@@ -43,8 +43,10 @@ namespace HotelTests.ControllersTest
         public void BookingGetByIdTypeIsBookingModel()
         {
             int id = 1;
+            var booking = TestData.BookingList[id - 1];
+            var bookingDTO = mapper.Map<Booking, BookingDTO>(booking);
 
-            BookingServiceMock.Setup(a => a.Get(id)).Returns(new BookingDTO());
+            BookingServiceMock.Setup(a => a.Get(id)).Returns(bookingDTO);
 
             BookingController controller = new BookingController(BookingServiceMock.Object);
 
@@ -87,9 +89,11 @@ namespace HotelTests.ControllersTest
         public void BookingGetByIdIsNotNull()
         {
             int id = 1;
+            var booking = TestData.BookingList[id - 1];
+            var bookingDTO = mapper.Map<Booking, BookingDTO>(booking);
 
-            EFWorkUnitMock.Setup(a => a.Bookings.Get(id)).Returns(new Booking());
-            BookingServiceMock.Setup(a => a.Get(id)).Returns(new BookingDTO());
+            EFWorkUnitMock.Setup(a => a.Bookings.Get(id)).Returns(booking);
+            BookingServiceMock.Setup(a => a.Get(id)).Returns(bookingDTO);
 
             var bookingService = new BookingService(EFWorkUnitMock.Object);
             BookingController controller = new BookingController(BookingServiceMock.Object);

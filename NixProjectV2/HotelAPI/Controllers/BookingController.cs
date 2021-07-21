@@ -41,15 +41,15 @@ namespace HotelAPI.Controllers
         [ResponseType(typeof(BookingModel))]
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
+            if (id < 1)
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+
             try
             {
-                if (id < 1)
-                {
-                    return request.CreateResponse(HttpStatusCode.BadRequest);
-                }
+
                 BookingDTO data = service.Get(id);
 
-                if (data != null)
+                if (data.Id != 0)
                 {
                     var booking = mapper.Map<BookingDTO, BookingModel>(data);
                     return request.CreateResponse(HttpStatusCode.OK, booking);
@@ -134,6 +134,7 @@ namespace HotelAPI.Controllers
                                 Bed = value.BookingRoom.RoomCategory.Bed
                             }
                         },
+                        Id = value.Id,
                         BookingDate = value.BookingDate,
                         EnterDate = value.EnterDate,
                         LeaveDate = value.LeaveDate,

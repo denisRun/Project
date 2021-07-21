@@ -41,13 +41,11 @@ namespace HotelAPI.Controllers
         [ResponseType(typeof(RoomModel))]
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
+            if (id < 1)
+                return request.CreateResponse(HttpStatusCode.BadRequest);
+
             try
             {
-                if (id < 1)
-                {
-                    return request.CreateResponse(HttpStatusCode.BadRequest);
-                }
-
                 RoomDTO data = service.Get(id);
 
                 if (data.Id != 0)

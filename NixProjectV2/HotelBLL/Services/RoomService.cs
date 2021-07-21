@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿ 
+using AutoMapper;
 using HotelBLL.DTO;
 using HotelBLL.Interfaces;
 using HotelDAL.Entities;
@@ -14,46 +15,39 @@ namespace HotelBLL.Services
     public class RoomService : IRoomService
     {
         private IWorkUnit Database { get; set; }
+        private IMapper mapperModelToDto;
+        private IMapper mapperDtoToModel;
 
         public RoomService(IWorkUnit database)
         {
             this.Database = database;
+            mapperModelToDto = new MapperConfiguration(cfg =>
+                cfg.CreateMap<Room, RoomDTO>()).CreateMapper();
+            mapperDtoToModel = new MapperConfiguration(cfg =>
+                cfg.CreateMap<RoomDTO, Room>()).CreateMapper();
         }
 
         public IEnumerable<RoomDTO> GetAllRooms()
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<Room, RoomDTO>()
-            ).CreateMapper();
-
-            return mapper.Map<IEnumerable<Room>, List<RoomDTO>>(Database.Rooms.GetAll());
+            return mapperModelToDto.Map<IEnumerable<Room>, List<RoomDTO>>(Database.Rooms.GetAll());
         }
 
         public RoomDTO Get(int id)
         {
-            var mapper = new MapperConfiguration(cfg =>
-            cfg.CreateMap<Room, RoomDTO>()
-            ).CreateMapper();
             var room = Database.Rooms.Get(id);
-            return mapper.Map<Room, RoomDTO>(room);
+            return mapperModelToDto.Map<Room, RoomDTO>(room);
         }
 
-        public void Create(RoomDTO guest)
+        public void Create(RoomDTO room)
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<RoomDTO, Room>()
-            ).CreateMapper();
-            var data = mapper.Map<RoomDTO, Room>(guest);
+            var data = mapperDtoToModel.Map<RoomDTO, Room>(room);
             Database.Rooms.Create(data);
             Database.Save();
         }
 
-        public void Update(int id, RoomDTO guest)
+        public void Update(int id, RoomDTO room)
         {
-            var mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<RoomDTO, Room>()
-            ).CreateMapper();
-            var data = mapper.Map<RoomDTO, Room>(guest);
+            var data = mapperDtoToModel.Map<RoomDTO, Room>(room);
             Database.Rooms.Update(id, data);
             Database.Save();
         }
