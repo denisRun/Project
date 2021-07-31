@@ -16,7 +16,7 @@ namespace HotelWEB.Utils
         public NinjectDependencyResolver(IKernel kernelParam)
         {
             this.kernel = kernelParam;
-            AddBindings();
+            //AddBindings();
         }
 
         public object GetService(Type serviceType)
@@ -29,9 +29,14 @@ namespace HotelWEB.Utils
             return kernel.GetAll(serviceType);
         }
 
-        private void AddBindings()
-        {
-            kernel.Bind<ICategoryService>().To<CategoryService>();
-        }
+        //private void AddBindings()
+        //{
+        //    kernel.Bind<IUserService>().To<UserService>();
+        //    kernel.Bind<IService<ClientDTO>>().To<ClientService>();
+        //    kernel.Bind<IService<CategoryDTO>>().To<CategoryService>();
+        //    kernel.Bind<IService<PriceCategoryDTO>>().To<PriceCategoryService>();
+        //    kernel.Bind<IService<RoomDTO>>().To<RoomService>();
+        //    kernel.Bind<IService<ReservationDTO>>().To<ReservationService>();
+        //}
     }
 }

@@ -1,0 +1,17 @@
+﻿@model List<HotelWEB.Models.BookingModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<tbody>
+    @foreach(var booking  in Model)
+    {
+        <tr>
+            <td>
+                @Html.Raw(booking.Id);
+            </td>
+        </tr>
+    }
+</tbody>

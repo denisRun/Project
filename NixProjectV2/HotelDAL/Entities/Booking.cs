@@ -12,6 +12,7 @@ namespace HotelDAL.Entities
     {
         [Key]
         public int Id { set; get; }
+        public int UserId { set; get; }
         public int GuestId { set; get; }
         public int RoomId { set; get; }
         public DateTime BookingDate { set; get; }
@@ -19,6 +20,8 @@ namespace HotelDAL.Entities
         public DateTime LeaveDate { set; get; }
         public string Set { set; get; }
 
+        [ForeignKey("UserId")]
+        public virtual User BookingUser { set; get; }
         [ForeignKey("GuestId")]
         public virtual Guest BookingGuest { set; get; }
         [ForeignKey("RoomId")]
@@ -30,6 +33,7 @@ namespace HotelDAL.Entities
             {
                 var objCM = obj as Booking;
                 return this.Id == objCM.Id &&
+                    this.BookingUser.Equals(objCM.BookingUser) &&
                     this.BookingGuest.Equals(objCM.BookingGuest) &&
                     this.BookingRoom.Equals(objCM.BookingRoom) &&
                     this.BookingDate.Equals(objCM.BookingDate) &&

@@ -9,6 +9,7 @@ namespace HotelBLL.DTO
     public class BookingDTO
     {
         public int Id { set; get; }
+        public UserDTO BookingUser { set; get; }
         public GuestDTO BookingGuest { set; get; }
         public RoomDTO BookingRoom { set; get; }
         public DateTime BookingDate { set; get; }
@@ -22,6 +23,7 @@ namespace HotelBLL.DTO
             {
                 var objCM = obj as BookingDTO;
                 return this.Id == objCM.Id &&
+                    this.BookingUser.Id == objCM.BookingUser.Id &&
                     this.BookingGuest.Equals(objCM.BookingGuest) &&
                     this.BookingRoom.Equals(objCM.BookingRoom) &&
                     this.BookingDate.Equals(objCM.BookingDate) &&

@@ -12,6 +12,7 @@ namespace HotelDAL.Repositories
     public class EFWorkUnit : IWorkUnit
     {
         private HotelContext db;
+        private UserRepository userRepository;
         private GuestRepository guestRepository;
         private RoomRepository roomRepository;
         private CategoryRepository categoryRepository;
@@ -63,6 +64,17 @@ namespace HotelDAL.Repositories
                     categoryRepository = new CategoryRepository(db);
 
                 return categoryRepository;
+            }
+        }
+
+        public IRepository<User> Users
+        {
+            get
+            {
+                if (userRepository == null)
+                    userRepository = new UserRepository(db);
+
+                return userRepository;
             }
         }
 

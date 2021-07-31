@@ -9,6 +9,7 @@ namespace HotelDAL.Interfaces
 {
     public interface IWorkUnit
     {
+        IRepository<User> Users { get; }
         IRepository<Room> Rooms { get; }
         IRepository<Category> Categories { get; }
         IRepository<Guest> Guests { get; }

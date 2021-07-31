@@ -5,8 +5,10 @@ namespace HotelWEB.App_Start
 {
     using System;
     using System.Web;
+    using System.Web.Mvc;
     using HotelBLL.Interfaces;
     using HotelBLL.Services;
+    using HotelWEB.Utils;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;

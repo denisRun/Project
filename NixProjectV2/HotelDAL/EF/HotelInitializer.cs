@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotelDAL.EF
 {
-    public class HotelInitializer : DropCreateDatabaseIfModelChanges<HotelContext>
+    public class HotelInitializer : DropCreateDatabaseAlways<HotelContext>
     {
         private void GuestInitializer(HotelContext context)
         {
@@ -30,6 +30,33 @@ namespace HotelDAL.EF
             foreach (var guest in guestList)
             {
                 context.Guests.Add(guest);
+            }
+
+            context.SaveChanges();
+        }
+
+        private void UserInitializer(HotelContext context)
+        {
+            var userList = new List<User>()
+            {
+                new User()
+                {
+                    Id=1,
+                    Login="userLogin1",
+                    Password="userPassword1",
+                    FullName="userFullname1"
+                },
+                new User()
+                {
+                    Id=2,
+                    Login="userLogin2",
+                    Password="userPassword2",
+                    FullName="userFullname2"
+                }
+            };
+            foreach (var user in userList)
+            {
+                context.Users.Add(user);
             }
 
             context.SaveChanges();
@@ -92,6 +119,7 @@ namespace HotelDAL.EF
                 new Booking()
                 {
                     Id=1,
+                    UserId=1,
                     GuestId=1,
                     RoomId=1,
                     BookingDate=new DateTime(2021,1,1),
@@ -102,6 +130,7 @@ namespace HotelDAL.EF
                 new Booking()
                 {
                     Id=2,
+                    UserId=2,
                     GuestId=2,
                     RoomId=2,
                     BookingDate=new DateTime(2021,2,2),
@@ -120,6 +149,7 @@ namespace HotelDAL.EF
         protected override void Seed(HotelContext context)
         {
             GuestInitializer(context);
+            UserInitializer(context);
             CategoryInitializer(context);
             RoomInitializer(context);
             BookingInitializer(context);

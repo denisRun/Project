@@ -17,6 +17,7 @@ namespace HotelDAL.EF
             Database.SetInitializer<HotelContext>(new HotelInitializer());
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Room> Rooms { get; set; }

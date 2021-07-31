@@ -35,8 +35,11 @@ namespace HotelBLL.Services
 
         public void Create(BookingDTO booking)
         {
+            var user = Database.Users.Get(booking.BookingUser.Id);
+
             var data = new Booking()
             {
+                BookingUser = user,
                 BookingGuest = new Guest()
                 {
                     Id = booking.BookingGuest.Id,
@@ -56,6 +59,7 @@ namespace HotelBLL.Services
                     }
                 },
                 Id = booking.Id,
+                UserId = booking.BookingUser.Id,
                 GuestId = booking.BookingGuest.Id,
                 RoomId = booking.BookingRoom.Id,
                 BookingDate = booking.BookingDate,
@@ -63,14 +67,18 @@ namespace HotelBLL.Services
                 LeaveDate = booking.LeaveDate,
                 Set = booking.Set
             };
+
             Database.Bookings.Create(data);
             Database.Save();
         }
 
         public void Update(int id, BookingDTO booking)
         {
+            var user = Database.Users.Get(booking.BookingUser.Id);
+
             var data = new Booking()
             {
+                BookingUser = user,
                 BookingGuest = new Guest()
                 {
                     Id = booking.BookingGuest.Id,
@@ -90,6 +98,7 @@ namespace HotelBLL.Services
                     }
                 },
                 Id = booking.Id,
+                UserId = booking.BookingUser.Id,
                 GuestId = booking.BookingGuest.Id,
                 RoomId = booking.BookingRoom.Id,
                 BookingDate = booking.BookingDate,
@@ -97,6 +106,7 @@ namespace HotelBLL.Services
                 LeaveDate = booking.LeaveDate,
                 Set = booking.Set
             };
+
             Database.Bookings.Update(id, data);
             Database.Save();
         }

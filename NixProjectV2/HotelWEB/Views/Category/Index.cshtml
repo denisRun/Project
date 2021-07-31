@@ -1,7 +1,17 @@
-﻿
+﻿@model List<HotelWEB.Models.CategoryModel>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
+<tbody>
+    @foreach(var category in Model)
+    {
+        <tr>
+            <td>
+                @Html.Raw(category.Name);
+            </td>
+        </tr>
+    }
+</tbody>
