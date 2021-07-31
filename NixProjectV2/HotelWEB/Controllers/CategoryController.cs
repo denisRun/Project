@@ -28,5 +28,64 @@ namespace HotelWEB.Controllers
 
             return View(data);
         }
+
+        public ActionResult Details(int id)
+        {
+            var data = mapper.Map<CategoryDTO, CategoryModel>(service.Get(id));
+
+            return View(data);
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(CategoryModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var modelDTO = mapper.Map<CategoryModel, CategoryDTO>(model);
+                service.Create(modelDTO);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var data = mapper.Map<CategoryDTO, CategoryModel>(service.Get(id));
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CategoryModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var modelDTO = mapper.Map<CategoryModel, CategoryDTO>(model);
+                service.Update(modelDTO.Id, modelDTO);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return View();
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            service.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }
