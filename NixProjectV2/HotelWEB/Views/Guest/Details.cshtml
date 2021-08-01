@@ -1,0 +1,28 @@
+﻿@model HotelWEB.Models.GuestModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Category @Model.Id</h2>
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.LabelFor(model => model.Name)
+        </th>
+        <td>
+            @Model.Name
+        </td>
+    </tr>
+    <tr>
+        <th>
+            @Html.LabelFor(model => model.Surname)
+        </th>
+        <td>
+            @Model.Surname
+        </td>
+    </tr>
+</table>
+
+

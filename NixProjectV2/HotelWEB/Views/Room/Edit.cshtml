@@ -1,0 +1,24 @@
+﻿@model HotelWEB.Models.RoomModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<h2>Create</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoomCategory.Name)
+            @Html.DropDownListFor(model => model.RoomCategory.Id, (SelectList)ViewBag.Categories)
+        </div>
+        <div class="form-group">
+            <input type="submit" action="Create" class="btn" value="Create" />
+        </div>
+    </div>
+}

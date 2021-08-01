@@ -18,9 +18,8 @@ namespace HotelWEB.Controllers
         IMapper mapper;
         IMapper mapperToDTO;
         IMapper mapperGuest;
-        IMapper mapperGuestToModel;
         IMapper mapperRoom;
-        IMapper mapperRoomToModel;
+
 
         public BookingController(IBookingService service, IGuestService serviceGuest,
             IRoomService serviceRoom)
@@ -34,12 +33,9 @@ namespace HotelWEB.Controllers
                 cfg.CreateMap<BookingModel, BookingDTO>()).CreateMapper();
             this.mapperGuest = new MapperConfiguration(cfg =>
                cfg.CreateMap<GuestDTO, GuestModel>()).CreateMapper();
-            this.mapperGuestToModel = new MapperConfiguration(cfg =>
-                cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
             this.mapperRoom = new MapperConfiguration(cfg =>
                 cfg.CreateMap<RoomDTO, RoomModel>()).CreateMapper();
-            this.mapperRoomToModel = new MapperConfiguration(cfg =>
-                cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
+
         }
         // GET: Booking
         public ActionResult Index()
@@ -72,24 +68,18 @@ namespace HotelWEB.Controllers
         [HttpPost]
         public ActionResult Create(BookingModel model)
         {
-            model.BookingDate = DateTime.Now;
-            model.UserId = 1;
-            //model.BookingGuest = mapperGuestToModel.Map<GuestDTO, GuestModel>
-            //    (serviceGuest.Get(model.BookingGuest.Id));
-            //model.BookingRoom = mapperRoomToModel.Map<RoomDTO, RoomModel>
-            //    (serviceRoom.Get(model.BookingRoom.Id));
-
             if (ModelState.IsValid)
             {
+                model.BookingDate = DateTime.Now;
+                model.UserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
+             
+            ModelState.AddModelError("", "Something went wrong");
+            return View();
+            
         }
 
         [HttpGet]
@@ -110,9 +100,9 @@ namespace HotelWEB.Controllers
         [HttpPost]
         public ActionResult Edit(BookingModel model)
         {
-            model.UserId = 1;
             if (ModelState.IsValid)
             {
+                model.UserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");

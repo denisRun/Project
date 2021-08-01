@@ -40,14 +40,22 @@ namespace HotelBLL.Services
 
         public void Create(RoomDTO room)
         {
-            var data = mapperDtoToModel.Map<RoomDTO, Room>(room);
+            var data = new Room
+            {
+                Name = room.Name,
+                CategoryId = room.RoomCategory.Id
+            };
             Database.Rooms.Create(data);
             Database.Save();
         }
 
         public void Update(int id, RoomDTO room)
         {
-            var data = mapperDtoToModel.Map<RoomDTO, Room>(room);
+            var data = new Room
+            {
+                Name = room.Name,
+                CategoryId = room.RoomCategory.Id
+            };
             Database.Rooms.Update(id, data);
             Database.Save();
         }

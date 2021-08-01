@@ -33,13 +33,14 @@ namespace HotelWEB.Controllers
         [HttpPost]
         public ActionResult Login(UserModel user)
         {
+            
             if (ModelState.IsValid)
             {
                 var userDTO = mapperModelToDTO.Map<UserModel, UserDTO>(user);
                 var result = service.Login(userDTO);
                 if (result != null)
                 {
-                    FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
+                    FormsAuthentication.SetAuthCookie(result.Id.ToString(), true);
                     return RedirectToAction("Index", "Category");
                 }
 

@@ -13,13 +13,21 @@ namespace HotelWEB.Controllers
     public class RoomController : Controller
     {
         IRoomService service;
+        ICategoryService serviceCategory;
         IMapper mapper;
+        IMapper mapperToDTO;
+        IMapper mapperCategories;
 
-        public RoomController(IRoomService service)
+        public RoomController(IRoomService service, ICategoryService serviceCategory)
         {
             this.service = service;
+            this.serviceCategory = serviceCategory;
             this.mapper = new MapperConfiguration(cfg =>
                 cfg.CreateMap<RoomDTO, RoomModel>()).CreateMapper();
+            this.mapperToDTO = new MapperConfiguration(cfg =>
+                cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
+            this.mapperCategories = new MapperConfiguration(cfg =>
+                cfg.CreateMap<CategoryDTO, CategoryModel>()).CreateMapper();
         }
         // GET: Room
         public ActionResult Index()
@@ -34,6 +42,65 @@ namespace HotelWEB.Controllers
             var data = mapper.Map<RoomDTO, RoomModel>(service.Get(id));
 
             return View(data);
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            var categories = mapperCategories.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(serviceCategory.GetAllCategories());
+            SelectList categoriesList = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = categoriesList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(RoomModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
+                service.Create(modelDTO);
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Something went wrong");
+            return View();
+
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var categories = mapperCategories.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(serviceCategory.GetAllCategories());
+            SelectList categoriesList = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = categoriesList;
+
+            var data = mapper.Map<RoomDTO, RoomModel>(service.Get(id));
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(RoomModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
+                service.Update(modelDTO.Id, modelDTO);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return View();
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            service.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }
