@@ -35,7 +35,7 @@ namespace HotelBLL.Services
 
         public void Create(BookingDTO booking)
         {
-            var user = Database.Users.Get(booking.BookingUser.Id);
+            var user = Database.Users.Get(booking.UserId);
 
             var data = new Booking()
             {
@@ -59,7 +59,7 @@ namespace HotelBLL.Services
                     }
                 },
                 Id = booking.Id,
-                UserId = booking.BookingUser.Id,
+                UserId = booking.UserId,
                 GuestId = booking.BookingGuest.Id,
                 RoomId = booking.BookingRoom.Id,
                 BookingDate = booking.BookingDate,

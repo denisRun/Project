@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HotelBLL.Interfaces
 {
-    interface IUserService
+    public interface IUserService
     {
         IEnumerable<UserDTO> GetAllUsers();
         UserDTO Get(int id);

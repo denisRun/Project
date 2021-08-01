@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -12,6 +13,7 @@ namespace HotelWEB.Models
         public GuestModel BookingGuest { set; get; }
         public RoomModel BookingRoom { set; get; }
         public DateTime BookingDate { set; get; }
+
         public DateTime EnterDate { set; get; }
         public DateTime LeaveDate { set; get; }
         public string Set { set; get; }

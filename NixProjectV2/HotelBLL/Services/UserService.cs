@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HotelBLL.Services
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
         private IWorkUnit Database { get; set; }
         private IMapper mapperModelToDto;

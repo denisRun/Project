@@ -4,14 +4,53 @@
 }
 
 <h2>Index</h2>
-
-<tbody>
-    @foreach(var booking  in Model)
-    {
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.LabelFor(model => model[0].BookingGuest.FullName)
+            </th>
+            <th>
+                @Html.LabelFor(model => model[0].EnterDate)
+            </th>
+            <th>
+                @Html.LabelFor(model => model[0].LeaveDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
         <tr>
             <td>
-                @Html.Raw(booking.LeaveDate);
+                @Html.Raw(booking.BookingGuest.FullName)
+            </td>
+            <td>
+                @Html.Raw(booking.EnterDate)
+            </td>
+            <td>
+                @Html.Raw(booking.LeaveDate)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new
+                {
+                    id = booking.Id
+                })
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new
+                {
+                    id = booking.Id
+                })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new
+                {
+                    id = booking.Id
+                })
             </td>
         </tr>
-    }
-</tbody>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Create", "Create", null, new[] { "btn" })

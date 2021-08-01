@@ -1,0 +1,36 @@
+﻿@model HotelWEB.Models.BookingModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.EnterDate)
+            <input type="datetime-local" name="EnterDate" value="@Model.EnterDate.ToString("yyyy-MM-ddThh:mm")"/>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LeaveDate)
+            <input type="datetime-local" name="LeaveDate" value="@Model.LeaveDate.ToString("yyyy-MM-ddThh:mm")"/>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookingGuest.FullName)
+            @Html.DropDownListFor(model => model.BookingGuest.Id, (SelectList)ViewBag.Guests)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookingRoom.Name)
+            @Html.DropDownListFor(model => model.BookingRoom.Id, (SelectList)ViewBag.Rooms)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Set)
+            @Html.EditorFor(model => model.Set)
+        </div>
+        <div class="form-group">
+            <input type="submit" action="Create" class="btn" value="Create" />
+        </div>
+    </div>
+}
+
