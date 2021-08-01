@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NixProjectV2", "WebApplication1\NixProjectV2.csproj", "{134BB4AC-B911-427A-8353-B0F3507BB76D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelDAL", "HotelDAL\HotelDAL.csproj", "{18032F37-79DD-44BD-84BD-0BD0C3E39EE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBLL", "HotelBLL\HotelBLL.csproj", "{A0F47400-6A8C-44F5-8721-17DEA5F19B99}"
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{134BB4AC-B911-427A-8353-B0F3507BB76D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{134BB4AC-B911-427A-8353-B0F3507BB76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{134BB4AC-B911-427A-8353-B0F3507BB76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{134BB4AC-B911-427A-8353-B0F3507BB76D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{18032F37-79DD-44BD-84BD-0BD0C3E39EE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{18032F37-79DD-44BD-84BD-0BD0C3E39EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18032F37-79DD-44BD-84BD-0BD0C3E39EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
