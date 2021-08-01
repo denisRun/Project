@@ -1,0 +1,31 @@
+﻿@model HotelWEB.Models.UserModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+@Html.ValidationSummary(true)
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Login)
+            @Html.EditorFor(model => model.Login)
+            @Html.ValidationMessageFor(model => model.Login)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password)
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn" value="Log In" />
+        </div>
+    </div>
+}
+@Html.ActionLink("Register", "Register", routeValues: null, htmlAttributes: new[] { "btn" })
+

@@ -35,29 +35,9 @@ namespace HotelBLL.Services
 
         public void Create(BookingDTO booking)
         {
-            var user = Database.Users.Get(booking.UserId);
 
             var data = new Booking()
             {
-                BookingUser = user,
-                BookingGuest = new Guest()
-                {
-                    Id = booking.BookingGuest.Id,
-                    Name = booking.BookingGuest.Name,
-                    Surname = booking.BookingGuest.Surname
-                },
-                BookingRoom = new Room()
-                {
-                    Id = booking.BookingRoom.Id,
-                    Name = booking.BookingRoom.Name,
-                    RoomCategory = new Category()
-                    {
-                        Id = booking.BookingRoom.RoomCategory.Id,
-                        Name = booking.BookingRoom.RoomCategory.Name,
-                        Price = booking.BookingRoom.RoomCategory.Price,
-                        Bed = booking.BookingRoom.RoomCategory.Bed
-                    }
-                },
                 Id = booking.Id,
                 UserId = booking.UserId,
                 GuestId = booking.BookingGuest.Id,
@@ -74,31 +54,15 @@ namespace HotelBLL.Services
 
         public void Update(int id, BookingDTO booking)
         {
-            var user = Database.Users.Get(booking.BookingUser.Id);
+            var user = Database.Users.Get(booking.UserId);
+            var guest = Database.Guests.Get(booking.BookingGuest.Id);
+            var room = Database.Rooms.Get(booking.BookingRoom.Id);
+            booking.BookingDate = DateTime.Now;
 
             var data = new Booking()
             {
-                BookingUser = user,
-                BookingGuest = new Guest()
-                {
-                    Id = booking.BookingGuest.Id,
-                    Name = booking.BookingGuest.Name,
-                    Surname = booking.BookingGuest.Surname
-                },
-                BookingRoom = new Room()
-                {
-                    Id = booking.BookingRoom.Id,
-                    Name = booking.BookingRoom.Name,
-                    RoomCategory = new Category()
-                    {
-                        Id = booking.BookingRoom.RoomCategory.Id,
-                        Name = booking.BookingRoom.RoomCategory.Name,
-                        Price = booking.BookingRoom.RoomCategory.Price,
-                        Bed = booking.BookingRoom.RoomCategory.Bed
-                    }
-                },
                 Id = booking.Id,
-                UserId = booking.BookingUser.Id,
+                UserId = booking.UserId,
                 GuestId = booking.BookingGuest.Id,
                 RoomId = booking.BookingRoom.Id,
                 BookingDate = booking.BookingDate,

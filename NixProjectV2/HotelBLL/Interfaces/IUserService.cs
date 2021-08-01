@@ -11,6 +11,8 @@ namespace HotelBLL.Interfaces
     {
         IEnumerable<UserDTO> GetAllUsers();
         UserDTO Get(int id);
+        UserDTO Login(UserDTO user);
+        UserDTO Register(UserDTO user);
         void Create(UserDTO user);
         void Update(int id, UserDTO user);
         void Delete(int id);

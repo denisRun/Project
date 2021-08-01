@@ -24,10 +24,11 @@ namespace HotelWEB
             NinjectModule categoryModule = new CategoryModule();
             NinjectModule guestModule = new GuestModule();
             NinjectModule bookingModule = new BookingModule();
+            NinjectModule userModule = new UserModule();
             NinjectModule roomModule = new RoomModule();
             NinjectModule dependencyModule = new DependencyModule("HotelModel");
             var kernel = new StandardKernel(dependencyModule, categoryModule, guestModule, bookingModule,
-                roomModule);
+                roomModule, userModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(kernel));
         }

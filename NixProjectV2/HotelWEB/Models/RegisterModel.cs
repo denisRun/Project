@@ -5,10 +5,11 @@ using System.Web;
 
 namespace HotelWEB.Models
 {
-    public class UserModel
+    public class RegisterModel
     {
-        public int Id { set; get; }
         public string Login { set; get; }
         public string Password { set; get; }
+        public string RepeatPassword { set; get; }
+        public string FullName{ set; get; }
     }
 }

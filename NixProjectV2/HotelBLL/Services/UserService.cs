@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelBLL.DTO;
+using HotelBLL.Helpers;
 using HotelBLL.Interfaces;
 using HotelDAL.Entities;
 using HotelDAL.Interfaces;
@@ -36,16 +37,43 @@ namespace HotelBLL.Services
             return mapperModelToDto.Map<User, UserDTO>(Database.Users.Get(id));
         }
 
-        public void Create(UserDTO category)
+        public UserDTO Login(UserDTO user)
         {
-            var data = mapperDtoToModel.Map<UserDTO, User>(category);
+            user.Password = Crypto.Hash(user.Password);
+            var users = Database.Users.GetAll();
+            var result = users.FirstOrDefault(us => us.Login == user.Login
+                && us.Password == user.Password);
+            
+            return mapperModelToDto.Map<User, UserDTO>(result);
+        }
+
+        public UserDTO Register(UserDTO user)
+        {
+            user.Password = Crypto.Hash(user.Password);
+            var users = Database.Users.GetAll();
+            var result = users.FirstOrDefault(us => us.Login == user.Login);
+
+            if(result == null)
+            {
+                Database.Users.Create(
+                    mapperDtoToModel.Map<UserDTO, User>(user));
+                Database.Save();
+            }
+
+            return mapperModelToDto.Map<User, UserDTO>(result);
+        }
+
+        public void Create(UserDTO user)
+        {
+            user.Password = Crypto.Hash(user.Password);
+            var data = mapperDtoToModel.Map<UserDTO, User>(user);
             Database.Users.Create(data);
             Database.Save();
         }
 
-        public void Update(int id, UserDTO category)
+        public void Update(int id, UserDTO user)
         {
-            var data = mapperDtoToModel.Map<UserDTO, User>(category);
+            var data = mapperDtoToModel.Map<UserDTO, User>(user);
             Database.Users.Update(id, data);
             Database.Save();
         }

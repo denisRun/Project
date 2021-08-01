@@ -74,10 +74,10 @@ namespace HotelWEB.Controllers
         {
             model.BookingDate = DateTime.Now;
             model.UserId = 1;
-            model.BookingGuest = mapperGuestToModel.Map<GuestDTO, GuestModel>
-                (serviceGuest.Get(model.BookingGuest.Id));
-            model.BookingRoom = mapperRoomToModel.Map<RoomDTO, RoomModel>
-                (serviceRoom.Get(model.BookingRoom.Id));
+            //model.BookingGuest = mapperGuestToModel.Map<GuestDTO, GuestModel>
+            //    (serviceGuest.Get(model.BookingGuest.Id));
+            //model.BookingRoom = mapperRoomToModel.Map<RoomDTO, RoomModel>
+            //    (serviceRoom.Get(model.BookingRoom.Id));
 
             if (ModelState.IsValid)
             {
@@ -110,9 +110,10 @@ namespace HotelWEB.Controllers
         [HttpPost]
         public ActionResult Edit(BookingModel model)
         {
+            model.UserId = 1;
             if (ModelState.IsValid)
             {
-                var modelDTO = mapper.Map<BookingModel, BookingDTO>(model);
+                var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }
