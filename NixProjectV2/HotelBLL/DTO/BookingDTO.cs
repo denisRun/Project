@@ -17,6 +17,9 @@ namespace HotelBLL.DTO
         public DateTime EnterDate { set; get; }
         public DateTime LeaveDate { set; get; }
         public string Set { set; get; }
+        public DateTime ActionTime { get; set; }
+        public string ActionType { get; set; }
+        public int ActionUserId { get; set; }
 
         public override bool Equals(object obj)
         {

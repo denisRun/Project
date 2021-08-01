@@ -19,6 +19,9 @@ namespace HotelDAL.Entities
         public DateTime EnterDate { set; get; }
         public DateTime LeaveDate { set; get; }
         public string Set { set; get; }
+        public DateTime ActionTime { get; set; }
+        public string ActionType { get; set; }
+        public int ActionUserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User BookingUser { set; get; }

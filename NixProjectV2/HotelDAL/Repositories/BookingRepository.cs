@@ -45,6 +45,9 @@ namespace HotelDAL.Repositories
                 booking.BookingDate = value.BookingDate != null ? value.BookingDate : booking.BookingDate;
                 booking.EnterDate = value.EnterDate != null ? value.EnterDate : booking.EnterDate;
                 booking.LeaveDate = value.LeaveDate != null ? value.LeaveDate : booking.LeaveDate;
+                booking.ActionTime = value.ActionTime != null ? value.ActionTime : booking.ActionTime;
+                booking.ActionType = value.ActionType ?? booking.ActionType;
+                booking.ActionUserId = value.ActionUserId > 0 ? value.ActionUserId : booking.ActionUserId;
             }
 
         }

@@ -71,26 +71,12 @@ namespace HotelDAL.EF
                     Id=1,
                     Name="Room1",
                     CategoryId=1,
-                    RoomCategory=new Category()
-                    {
-                        Id=1,
-                        Name="Category1",
-                        Price=1,
-                        Bed=1
-                    }
                 },
                 new Room()
                 {
                     Id=2,
                     Name="Room2",
-                    CategoryId=2,
-                    RoomCategory=new Category()
-                    {
-                        Id=2,
-                        Name="Category2",
-                        Price=2,
-                        Bed=2
-                    }
+                    CategoryId=2
                 }
             };
             foreach (var room in roomList)
@@ -140,32 +126,9 @@ namespace HotelDAL.EF
                     EnterDate=new DateTime(2021,1,1),
                     LeaveDate=new DateTime(2021,1,11),
                     Set="yes",
-                    BookingUser= new User()
-                    {
-                        Id=1,
-                        Login="userLogin1",
-                        Password="70-FF-3F-49-F0-0A-00-A1-FD-71-A1-86-83-40-A1-A6",
-                        FullName="userFullname1"
-                    },
-                    BookingGuest =new Guest()
-                    {
-                        Id=1,
-                        Name="Guest1",
-                        Surname="Guest1"
-                    },
-                    BookingRoom=new Room()
-                {
-                    Id=1,
-                    Name="Room1",
-                    CategoryId=1,
-                    RoomCategory=new Category()
-                    {
-                        Id=1,
-                        Name="Category1",
-                        Price=1,
-                        Bed=1
-                    }
-                }
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 },
                 new Booking()
                 {
@@ -177,32 +140,9 @@ namespace HotelDAL.EF
                     EnterDate=new DateTime(2021,2,2),
                     LeaveDate=new DateTime(2021,2,22),
                     Set="no",
-                    BookingUser=new User()
-                    {
-                        Id=1,
-                        Login="userLogin1",
-                        Password="70-FF-3F-49-F0-0A-00-A1-FD-71-A1-86-83-40-A1-A6",
-                        FullName="userFullname1"
-                    },
-                    BookingGuest=new Guest()
-                    {
-                        Id=2,
-                        Name="Guest2",
-                        Surname="Guest2"
-                    },
-                    BookingRoom=new Room()
-                    {
-                        Id=2,
-                        Name="Room2",
-                        CategoryId=2,
-                        RoomCategory=new Category()
-                        {
-                            Id=2,
-                            Name="Category2",
-                            Price=2,
-                            Bed=2
-                        }
-                    }
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Update",
+                    ActionUserId=2
                 }
             };
 

@@ -17,5 +17,6 @@ namespace HotelWEB.Models
         public DateTime EnterDate { set; get; }
         public DateTime LeaveDate { set; get; }
         public string Set { set; get; }
+        public int ActionUserId { get; set; }
     }
 }

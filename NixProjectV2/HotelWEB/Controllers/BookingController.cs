@@ -70,8 +70,8 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.BookingDate = DateTime.Now;
                 model.UserId = Convert.ToInt32(User.Identity.Name);
+                model.ActionUserId = model.UserId;
                 var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
@@ -102,7 +102,7 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.UserId = Convert.ToInt32(User.Identity.Name);
+                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
