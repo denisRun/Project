@@ -40,6 +40,9 @@ namespace HotelDAL.Repositories
             {
                 guest.Name = value.Name ?? guest.Name;
                 guest.Surname = value.Surname ?? guest.Surname;
+                guest.ActionTime = value.ActionTime != null ? value.ActionTime : guest.ActionTime;
+                guest.ActionType = value.ActionType ?? guest.ActionType;
+                guest.ActionUserId = value.ActionUserId > 0 ? value.ActionUserId : guest.ActionUserId;
             }
 
         }

@@ -38,14 +38,24 @@ namespace HotelBLL.Services
 
         public void Create(GuestDTO guest)
         {
+            string actionType = "Create";
+            DateTime actionTime = DateTime.Now;
+            guest.ActionType = actionType;
+            guest.ActionTime = actionTime;
             var data = mapperDtoToModel.Map<GuestDTO, Guest>(guest);
+
             Database.Guests.Create(data);
             Database.Save();
         }
 
         public void Update(int id, GuestDTO guest)
         {
+            string actionType = "Update";
+            DateTime actionTime = DateTime.Now;
+            guest.ActionType = actionType;
+            guest.ActionTime = actionTime;
             var data = mapperDtoToModel.Map<GuestDTO, Guest>(guest);
+
             Database.Guests.Update(id, data);
             Database.Save();
         }

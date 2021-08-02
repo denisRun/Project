@@ -37,7 +37,9 @@ namespace HotelBLL.Services
         }
 
         public void Create(CategoryDTO category)
-        { 
+        {
+            category.ActionType = "Create";
+            category.ActionTime = DateTime.Now;
             var data = mapperDtoToModel.Map<CategoryDTO, Category>(category);
             Database.Categories.Create(data);
             Database.Save();
@@ -45,6 +47,8 @@ namespace HotelBLL.Services
 
         public void Update(int id, CategoryDTO category)
         {
+            category.ActionType = "Update";
+            category.ActionTime = DateTime.Now;
             var data = mapperDtoToModel.Map<CategoryDTO, Category>(category);
             Database.Categories.Update(id, data);
             Database.Save();

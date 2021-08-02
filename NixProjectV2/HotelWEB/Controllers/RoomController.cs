@@ -59,7 +59,17 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
+                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                //var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
+                var modelDTO = new RoomDTO()
+                {
+                    Name = model.Name,
+                    ActionUserId = model.ActionUserId,
+                    RoomCategory = new CategoryDTO()
+                    {
+                        Id = model.RoomCategory.Id
+                    }
+                };
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
@@ -86,7 +96,18 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
+                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                //var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
+                var modelDTO = new RoomDTO()
+                {
+                    Id=model.Id,
+                    Name = model.Name,
+                    ActionUserId = model.ActionUserId,
+                    RoomCategory = new CategoryDTO()
+                    {
+                        Id = model.RoomCategory.Id
+                    }
+                };
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }

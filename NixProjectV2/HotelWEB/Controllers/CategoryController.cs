@@ -14,12 +14,15 @@ namespace HotelWEB.Controllers
     {
         ICategoryService service;
         IMapper mapper;
+        IMapper mapperToDTO;
 
         public CategoryController(ICategoryService service)
         {
             this.service = service;
             this.mapper = new MapperConfiguration(cfg =>
                 cfg.CreateMap<CategoryDTO, CategoryModel>()).CreateMapper();
+            this.mapperToDTO = new MapperConfiguration(cfg =>
+                cfg.CreateMap<CategoryModel, CategoryDTO>()).CreateMapper();
         }
         // GET: Category
         public ActionResult Index()
@@ -47,7 +50,8 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var modelDTO = mapper.Map<CategoryModel, CategoryDTO>(model);
+                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                var modelDTO = mapperToDTO.Map<CategoryModel, CategoryDTO>(model);
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
@@ -71,7 +75,8 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var modelDTO = mapper.Map<CategoryModel, CategoryDTO>(model);
+                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                var modelDTO = mapperToDTO.Map<CategoryModel, CategoryDTO>(model);
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }

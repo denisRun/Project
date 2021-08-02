@@ -12,6 +12,9 @@ namespace HotelBLL.DTO
         public string Name { set; get; }
         public decimal Price { set; get; }
         public int Bed { set; get; }
+        public DateTime ActionTime { get; set; }
+        public string ActionType { get; set; }
+        public int ActionUserId { get; set; }
 
         public override bool Equals(object obj)
         {

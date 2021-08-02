@@ -14,6 +14,9 @@ namespace HotelDAL.Entities
         public int Id { set; get; }
         public string Name { set; get; }
         public int CategoryId { set; get; }
+        public DateTime ActionTime { get; set; }
+        public string ActionType { get; set; }
+        public int ActionUserId { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category RoomCategory { set; get; }

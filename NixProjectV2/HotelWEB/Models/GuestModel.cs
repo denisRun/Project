@@ -12,6 +12,7 @@ namespace HotelWEB.Models
         public int Id { set; get; }
         public string Name { set; get; }
         public string Surname { set; get; }
+        public int ActionUserId { get; set; }
         [DisplayName("Guest Fullname")]
         public string FullName 
         { 

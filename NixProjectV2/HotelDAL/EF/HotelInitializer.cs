@@ -18,13 +18,19 @@ namespace HotelDAL.EF
                 {
                     Id=1,
                     Name="Guest1",
-                    Surname="Guest1"
+                    Surname="Guest1",
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 },
                 new Guest()
                 {
                     Id=2,
                     Name="Guest2",
-                    Surname="Guest2"
+                    Surname="Guest2",
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 }
             };
             foreach (var guest in guestList)
@@ -71,12 +77,18 @@ namespace HotelDAL.EF
                     Id=1,
                     Name="Room1",
                     CategoryId=1,
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 },
                 new Room()
                 {
                     Id=2,
                     Name="Room2",
-                    CategoryId=2
+                    CategoryId=2,
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 }
             };
             foreach (var room in roomList)
@@ -95,14 +107,20 @@ namespace HotelDAL.EF
                     Id=1,
                     Name="Category1",
                     Price=1,
-                    Bed=1
+                    Bed=1,
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 },
                 new Category()
                 {
                     Id=2,
                     Name="Category2",
                     Price=2,
-                    Bed=2
+                    Bed=2,
+                    ActionTime=new DateTime(2021,1,1),
+                    ActionType="Create",
+                    ActionUserId=1
                 }
             };
             foreach (var category in categoryList)

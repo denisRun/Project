@@ -72,7 +72,25 @@ namespace HotelWEB.Controllers
             {
                 model.UserId = Convert.ToInt32(User.Identity.Name);
                 model.ActionUserId = model.UserId;
-                var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
+                //var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
+                var modelDTO = new BookingDTO()
+                {
+                    Id = model.Id,
+                    UserId = model.UserId,
+                    BookingDate = model.BookingDate,
+                    EnterDate = model.EnterDate,
+                    LeaveDate = model.LeaveDate,
+                    Set = model.Set,
+                    ActionUserId = model.ActionUserId,
+                    BookingRoom = new RoomDTO()
+                    {
+                        Id = model.BookingRoom.Id
+                    },
+                    BookingGuest = new GuestDTO()
+                    {
+                        Id = model.BookingGuest.Id
+                    }
+                };
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
@@ -103,7 +121,26 @@ namespace HotelWEB.Controllers
             if (ModelState.IsValid)
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
+
+                //var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
+                var modelDTO = new BookingDTO()
+                {
+                    Id = model.Id,
+                    UserId = model.UserId,
+                    BookingDate = model.BookingDate,
+                    EnterDate = model.EnterDate,
+                    LeaveDate = model.LeaveDate,
+                    Set = model.Set,
+                    ActionUserId = model.ActionUserId,
+                    BookingRoom = new RoomDTO()
+                    {
+                        Id = model.BookingRoom.Id
+                    },
+                    BookingGuest = new GuestDTO()
+                    {
+                        Id = model.BookingGuest.Id
+                    }
+                };
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }

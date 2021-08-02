@@ -15,5 +15,6 @@ namespace HotelWEB.Models
         public decimal Price { set; get; }
         [DisplayName("Lying places")]
         public int Bed { set; get; }
+        public int ActionUserId { get; set; }
     }
 }

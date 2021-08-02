@@ -11,6 +11,9 @@ namespace HotelBLL.DTO
         public int Id { set; get; }
         public string Name { set; get; }
         public CategoryDTO RoomCategory { set; get; }
+        public DateTime ActionTime { get; set; }
+        public string ActionType { get; set; }
+        public int ActionUserId { get; set; }
 
         public override bool Equals(object obj)
         {

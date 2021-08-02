@@ -47,6 +47,9 @@ namespace HotelDAL.Repositories
             {
                 room.CategoryId = value.CategoryId > 0 ? value.CategoryId : room.CategoryId;
                 room.Name = value.Name ?? room.Name;
+                room.ActionTime = value.ActionTime != null ? value.ActionTime : room.ActionTime;
+                room.ActionType = value.ActionType ?? room.ActionType;
+                room.ActionUserId = value.ActionUserId > 0 ? value.ActionUserId : room.ActionUserId;
             }
 
         }

@@ -1,4 +1,4 @@
-﻿ 
+﻿
 using AutoMapper;
 using HotelBLL.DTO;
 using HotelBLL.Interfaces;
@@ -40,22 +40,35 @@ namespace HotelBLL.Services
 
         public void Create(RoomDTO room)
         {
+            string actionType = "Create";
+            DateTime actionTime = DateTime.Now;
             var data = new Room
             {
                 Name = room.Name,
-                CategoryId = room.RoomCategory.Id
+                CategoryId = room.RoomCategory.Id,
+                ActionType = actionType,
+                ActionTime = actionTime,
+                ActionUserId =room.ActionUserId
             };
+
             Database.Rooms.Create(data);
             Database.Save();
         }
 
         public void Update(int id, RoomDTO room)
         {
+            string actionType = "Update";
+            DateTime actionTime = DateTime.Now;
             var data = new Room
             {
+                Id=room.Id,
                 Name = room.Name,
-                CategoryId = room.RoomCategory.Id
+                CategoryId = room.RoomCategory.Id,
+                ActionType = actionType,
+                ActionTime = actionTime,
+                ActionUserId = room.ActionUserId
             };
+
             Database.Rooms.Update(id, data);
             Database.Save();
         }

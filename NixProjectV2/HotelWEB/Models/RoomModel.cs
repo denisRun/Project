@@ -11,6 +11,7 @@ namespace HotelWEB.Models
         public int Id { set; get; }
         [DisplayName("Room Name")]
         public string Name { set; get; }
+        public int ActionUserId { get; set; }
         public CategoryModel RoomCategory { set; get; }
     }
 }
