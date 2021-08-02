@@ -33,21 +33,20 @@ namespace HotelWEB.Controllers
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(service.GetAllRooms());
-
             return View(data);
         }
 
         public ActionResult Details(int id)
         {
             var data = mapper.Map<RoomDTO, RoomModel>(service.Get(id));
-
             return View(data);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            var categories = mapperCategories.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(serviceCategory.GetAllCategories());
+            var categories = mapperCategories.Map<IEnumerable<CategoryDTO>,
+                List<CategoryModel>>(serviceCategory.GetAllCategories());
             SelectList categoriesList = new SelectList(categories, "Id", "Name");
             ViewBag.Categories = categoriesList;
 
@@ -60,7 +59,6 @@ namespace HotelWEB.Controllers
             if (ModelState.IsValid)
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                //var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
                 var modelDTO = new RoomDTO()
                 {
                     Name = model.Name,
@@ -70,11 +68,12 @@ namespace HotelWEB.Controllers
                         Id = model.RoomCategory.Id
                     }
                 };
+
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Something went wrong");
+            ModelState.AddModelError("", "Model is invalid");
             return View();
 
         }
@@ -87,7 +86,6 @@ namespace HotelWEB.Controllers
             ViewBag.Categories = categoriesList;
 
             var data = mapper.Map<RoomDTO, RoomModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -97,7 +95,6 @@ namespace HotelWEB.Controllers
             if (ModelState.IsValid)
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                //var modelDTO = mapperToDTO.Map<RoomModel, RoomDTO>(model);
                 var modelDTO = new RoomDTO()
                 {
                     Id=model.Id,
@@ -108,12 +105,13 @@ namespace HotelWEB.Controllers
                         Id = model.RoomCategory.Id
                     }
                 };
+
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }
             else
             {
-                ModelState.AddModelError("", "Something went wrong");
+                ModelState.AddModelError("", "Model is invalid");
                 return View();
             }
         }

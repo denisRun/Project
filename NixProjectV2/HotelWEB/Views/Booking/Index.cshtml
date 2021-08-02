@@ -1,8 +1,8 @@
 ﻿@model List<HotelWEB.Models.BookingModel>
-@{
-    ViewBag.Title = "Index";
-}
 
+@{ ViewBag.Title = "Index"; }
+
+@Html.ActionLink("Money per month", "MoneyPerMonth" )
 <h2>Index</h2>
 <table class="table table-hover">
     <thead>
@@ -21,36 +21,50 @@
     <tbody>
         @foreach (var booking in Model)
         {
-        <tr>
-            <td>
-                @Html.Raw(booking.BookingGuest.FullName)
-            </td>
-            <td>
-                @Html.Raw(booking.EnterDate)
-            </td>
-            <td>
-                @Html.Raw(booking.LeaveDate)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new
+<tr>
+    <td>
+        @Html.Raw(booking.BookingGuest.FullName)
+    </td>
+    <td>
+        @Html.Raw(booking.EnterDate)
+    </td>
+    <td>
+        @Html.Raw(booking.LeaveDate)
+    </td>
+    <td>
+        @if (booking.Set == "Checked In")
+        {
+@Html.ActionLink("Check Out", "CheckOut", new
+{
+    id = booking.Id
+}) }
+                else if (booking.Set != "Checked Out")
                 {
-                    id = booking.Id
-                })
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new
-                {
-                    id = booking.Id
-                })
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new
-                {
-                    id = booking.Id
-                })
-            </td>
-        </tr>
-        }
+                    @Html.ActionLink("Check in", "CheckIn", new
+                    {
+                        id = booking.Id
+                    })
+                }
+    </td>
+    <td>
+        @Html.ActionLink("Details", "Details", new
+        {
+            id = booking.Id
+        })
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new
+        {
+            id = booking.Id
+        })
+    </td>
+    <td>
+        @Html.ActionLink("Delete", "Delete", new
+        {
+            id = booking.Id
+        })
+    </td>
+</tr>}
     </tbody>
 </table>
 @Html.ActionLink("Create", "Create", null, new[] { "btn" })

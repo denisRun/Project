@@ -38,21 +38,7 @@ namespace HotelBLL.Services
             booking.BookingDate = DateTime.Now;
             booking.ActionType = "Create";
             booking.ActionTime = DateTime.Now;
-
-            var data = new Booking()
-            {
-                Id = booking.Id,
-                UserId = booking.UserId,
-                GuestId = booking.BookingGuest.Id,
-                RoomId = booking.BookingRoom.Id,
-                BookingDate = booking.BookingDate,
-                EnterDate = booking.EnterDate,
-                LeaveDate = booking.LeaveDate,
-                Set = booking.Set,
-                ActionTime = booking.ActionTime,
-                ActionType = booking.ActionType,
-                ActionUserId = booking.ActionUserId
-            };
+            var data = Helpers.Mapper.MapToBooking(booking);
 
             Database.Bookings.Create(data);
             Database.Save();
@@ -63,21 +49,27 @@ namespace HotelBLL.Services
             booking.BookingDate = Database.Bookings.Get(id).BookingDate;
             booking.ActionType = "Update";
             booking.ActionTime = DateTime.Now;
+            var data = Helpers.Mapper.MapToBooking(booking);
 
-            var data = new Booking()
-            {
-                Id = booking.Id,
-                UserId = booking.UserId,
-                GuestId = booking.BookingGuest.Id,
-                RoomId = booking.BookingRoom.Id,
-                BookingDate = booking.BookingDate,
-                EnterDate = booking.EnterDate,
-                LeaveDate = booking.LeaveDate,
-                Set = booking.Set,
-                ActionTime = booking.ActionTime,
-                ActionType = booking.ActionType,
-                ActionUserId = booking.ActionUserId
-            };
+            Database.Bookings.Update(id, data);
+            Database.Save();
+        }
+
+        public void CheckIn(int id)
+        {
+            string checkStatus = "Checked In";
+            var data = Database.Bookings.Get(id);
+            data.Set = checkStatus;
+
+            Database.Bookings.Update(id, data);
+            Database.Save();
+        }
+
+        public void CheckOut(int id)
+        {
+            string checkStatus = "Checked Out";
+            var data = Database.Bookings.Get(id);
+            data.Set = checkStatus;
 
             Database.Bookings.Update(id, data);
             Database.Save();

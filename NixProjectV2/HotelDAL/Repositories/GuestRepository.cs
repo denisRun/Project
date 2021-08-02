@@ -51,7 +51,9 @@ namespace HotelDAL.Repositories
         {
             Guest guest = Get(id);
             if (guest != null)
+            {
                 db.Guests.Remove(guest);
+            }
         }
     }
 }

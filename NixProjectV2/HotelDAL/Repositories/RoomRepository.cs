@@ -37,7 +37,9 @@ namespace HotelDAL.Repositories
         {
             Room room = Get(id);
             if (room != null)
+            {
                 db.Rooms.Remove(room);
+            }
         }
 
         public void Update(int roomId, Room value)

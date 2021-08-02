@@ -49,7 +49,9 @@ namespace HotelDAL.Repositories
         {
             User user = Get(id);
             if (user != null)
+            {
                 db.Users.Remove(user);
+            }
         }
 
     }

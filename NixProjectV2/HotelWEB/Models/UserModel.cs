@@ -10,9 +10,10 @@ namespace HotelWEB.Models
     {
         public int Id { set; get; }
         [Required]
-        [DataType(DataType.Password)]
+
         public string Login { set; get; }
         [Required]
+        [DataType(DataType.Password)]
         public string Password { set; get; }
     }
 }

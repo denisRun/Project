@@ -56,7 +56,9 @@ namespace HotelDAL.Repositories
         {
             Booking booking = Get(id);
             if (booking != null)
+            {
                 db.Bookings.Remove(booking);
+            }
         }
     }
 }

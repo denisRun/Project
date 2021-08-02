@@ -28,20 +28,21 @@ namespace HotelWEB.Controllers
 
         public ActionResult Login()
         {
+            FormsAuthentication.SignOut();
             return View();
         }
         [HttpPost]
         public ActionResult Login(UserModel user)
-        {
-            
+        {           
             if (ModelState.IsValid)
             {
                 var userDTO = mapperModelToDTO.Map<UserModel, UserDTO>(user);
                 var result = service.Login(userDTO);
+
                 if (result != null)
                 {
                     FormsAuthentication.SetAuthCookie(result.Id.ToString(), true);
-                    return RedirectToAction("Index", "Category");
+                    return RedirectToAction("Index", "Booking");
                 }
 
                 ModelState.AddModelError("", "Incorrect Login or Password");
@@ -66,6 +67,7 @@ namespace HotelWEB.Controllers
                         cfg.CreateMap<RegisterModel, UserDTO>()).CreateMapper();
                     var modelDTO = mapperRegisterToDTO.Map<RegisterModel, UserDTO>(model);
                     var result = service.Register(modelDTO);
+
                     if (result == null)
                     {
                         return RedirectToAction("Login");

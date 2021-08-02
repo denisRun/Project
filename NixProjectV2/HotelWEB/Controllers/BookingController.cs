@@ -41,14 +41,12 @@ namespace HotelWEB.Controllers
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(service.GetAllBookings());
-
             return View(data);
         }
 
         public ActionResult Details(int id)
         {
             var data = mapper.Map<BookingDTO, BookingModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -72,7 +70,6 @@ namespace HotelWEB.Controllers
             {
                 model.UserId = Convert.ToInt32(User.Identity.Name);
                 model.ActionUserId = model.UserId;
-                //var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 var modelDTO = new BookingDTO()
                 {
                     Id = model.Id,
@@ -91,13 +88,13 @@ namespace HotelWEB.Controllers
                         Id = model.BookingGuest.Id
                     }
                 };
+
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
-             
-            ModelState.AddModelError("", "Something went wrong");
+
+            ModelState.AddModelError("", "Model is invalid");
             return View();
-            
         }
 
         [HttpGet]
@@ -111,7 +108,6 @@ namespace HotelWEB.Controllers
             ViewBag.Rooms = roomsList;
 
             var data = mapper.Map<BookingDTO, BookingModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -121,8 +117,6 @@ namespace HotelWEB.Controllers
             if (ModelState.IsValid)
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-
-                //var modelDTO = mapperToDTO.Map<BookingModel, BookingDTO>(model);
                 var modelDTO = new BookingDTO()
                 {
                     Id = model.Id,
@@ -141,14 +135,13 @@ namespace HotelWEB.Controllers
                         Id = model.BookingGuest.Id
                     }
                 };
+
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
+
+            ModelState.AddModelError("", "Model is invalid");
+            return View();
         }
 
         public ActionResult Delete(int id)
@@ -156,5 +149,43 @@ namespace HotelWEB.Controllers
             service.Delete(id);
             return RedirectToAction("Index");
         }
+
+        public ActionResult CheckIn(int id)
+        {
+            service.CheckIn(id);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CheckOut(int id)
+        {
+            service.CheckOut(id);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult MoneyPerMonth()
+        {
+            var bookings = service.GetAllBookings();
+            Dictionary<string, decimal> money = new Dictionary<string, decimal>();
+
+            foreach (var booking in bookings)
+            {
+                string key = booking.EnterDate.ToString("yyyy.MM");
+                decimal sum = Decimal.Parse(
+                    (booking.LeaveDate - booking.EnterDate).TotalDays.ToString()) *
+                    booking.BookingRoom.RoomCategory.Price;
+
+                if (money.ContainsKey(key))
+                {
+                    money[key] += sum;
+                }
+                else
+                {
+                    money.Add(key, sum);
+                }               
+            }
+
+            return View(money);
+        }
+
     }
 }

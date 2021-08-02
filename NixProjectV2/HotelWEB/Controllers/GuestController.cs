@@ -24,7 +24,7 @@ namespace HotelWEB.Controllers
             this.mapperToDTO = new MapperConfiguration(cfg =>
                cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
         }
-        // GET: Category
+
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<GuestDTO>, List<GuestModel>>(service.GetAllGuests());
@@ -35,7 +35,6 @@ namespace HotelWEB.Controllers
         public ActionResult Details(int id)
         {
             var data = mapper.Map<GuestDTO, GuestModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -52,21 +51,19 @@ namespace HotelWEB.Controllers
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<GuestModel, GuestDTO>(model);
+
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
+
+            ModelState.AddModelError("", "Model is invalid");
+            return View();
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
             var data = mapper.Map<GuestDTO, GuestModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -77,12 +74,13 @@ namespace HotelWEB.Controllers
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<GuestModel, GuestDTO>(model);
+
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }
             else
             {
-                ModelState.AddModelError("", "Something went wrong");
+                ModelState.AddModelError("", "Model is invalid");
                 return View();
             }
         }

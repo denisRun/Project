@@ -28,14 +28,12 @@ namespace HotelWEB.Controllers
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(service.GetAllCategories());
-
             return View(data);
         }
 
         public ActionResult Details(int id)
         {
             var data = mapper.Map<CategoryDTO, CategoryModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -52,21 +50,19 @@ namespace HotelWEB.Controllers
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<CategoryModel, CategoryDTO>(model);
+
                 service.Create(modelDTO);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
+
+            ModelState.AddModelError("", "Model is invalid");
+            return View();
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
             var data = mapper.Map<CategoryDTO, CategoryModel>(service.Get(id));
-
             return View(data);
         }
 
@@ -77,14 +73,13 @@ namespace HotelWEB.Controllers
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
                 var modelDTO = mapperToDTO.Map<CategoryModel, CategoryDTO>(model);
+
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "Something went wrong");
-                return View();
-            }
+
+            ModelState.AddModelError("", "Model is invalid");
+            return View();
         }
 
         public ActionResult Delete(int id)

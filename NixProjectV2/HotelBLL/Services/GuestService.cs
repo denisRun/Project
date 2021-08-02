@@ -38,10 +38,10 @@ namespace HotelBLL.Services
 
         public void Create(GuestDTO guest)
         {
-            string actionType = "Create";
             DateTime actionTime = DateTime.Now;
+            string actionType = "Create";
             guest.ActionType = actionType;
-            guest.ActionTime = actionTime;
+            guest.ActionTime = actionTime;           
             var data = mapperDtoToModel.Map<GuestDTO, Guest>(guest);
 
             Database.Guests.Create(data);
@@ -50,8 +50,8 @@ namespace HotelBLL.Services
 
         public void Update(int id, GuestDTO guest)
         {
-            string actionType = "Update";
             DateTime actionTime = DateTime.Now;
+            string actionType = "Update";
             guest.ActionType = actionType;
             guest.ActionTime = actionTime;
             var data = mapperDtoToModel.Map<GuestDTO, Guest>(guest);

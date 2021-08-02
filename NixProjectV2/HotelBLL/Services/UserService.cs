@@ -42,7 +42,7 @@ namespace HotelBLL.Services
             user.Password = Crypto.Hash(user.Password);
             var users = Database.Users.GetAll();
             var result = users.FirstOrDefault(us => us.Login == user.Login
-                && us.Password == user.Password);
+                && us.Password == user.Password); 
             
             return mapperModelToDto.Map<User, UserDTO>(result);
         }
@@ -67,6 +67,7 @@ namespace HotelBLL.Services
         {
             user.Password = Crypto.Hash(user.Password);
             var data = mapperDtoToModel.Map<UserDTO, User>(user);
+
             Database.Users.Create(data);
             Database.Save();
         }
@@ -74,6 +75,7 @@ namespace HotelBLL.Services
         public void Update(int id, UserDTO user)
         {
             var data = mapperDtoToModel.Map<UserDTO, User>(user);
+
             Database.Users.Update(id, data);
             Database.Save();
         }

@@ -1,27 +1,28 @@
 ﻿@model HotelWEB.Models.CategoryModel
-@{
-    ViewBag.Title = "Edit";
-}
+@{ ViewBag.Title = "Edit"; }
 
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        <div class="form-group">
+<div class="form-horizontal">
+    <div class="row">
+        <div class="form-group col-xs-3">
             @Html.LabelFor(model => model.Name)
-            @Html.EditorFor(model => model.Name)
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Price)
-            @Html.EditorFor(model => model.Price)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Bed)
-            @Html.EditorFor(model => model.Bed)
-        </div>
-        <div class="form-group">
-            <input type="submit" action="Edit" class="btn" value="Edit" />
+        <div class="form-group col-xs-5">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { size = "1000px" }, })
         </div>
     </div>
-}
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price)
+        @Html.EditorFor(model => model.Price)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Bed)
+        @Html.EditorFor(model => model.Bed)
+    </div>
+    <div class="form-group">
+        <input type="submit" action="Edit" class="btn" value="Edit" />
+    </div>
+</div>}
