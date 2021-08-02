@@ -44,7 +44,7 @@ namespace HotelWEB.Controllers
                     return RedirectToAction("Index", "Category");
                 }
 
-                ModelState.AddModelError("", "User not found");
+                ModelState.AddModelError("", "Incorrect Login or Password");
             }
 
             return View(user);
