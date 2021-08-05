@@ -11,8 +11,11 @@ namespace HotelDAL.Entities
     {
         [Key]
         public int Id { set; get; }
+        [Required]
         public string Login { set; get; }
+        [Required]
         public string Password { set; get; }
+        [Required]
         public string FullName { set; get; }
 
         public override bool Equals(object obj)

@@ -1,4 +1,42 @@
-﻿@model HotelWEB.Models.BookingModel 
+﻿@*@model HotelWEB.Models.BookingModel
+    @{
+        ViewBag.Title = "Create";
+    }
+
+    <h2>Create</h2>
+
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EnterDate)
+                @Html.Raw(Model.EnterDate)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveDate)
+                @Html.Raw(Model.LeaveDate)
+            </div>
+                    <div class="form-group">
+                @Html.LabelFor(model => model.BookingRoom.Name)
+                @Html.DropDownListFor(model => model.BookingRoom.Id, (SelectList)ViewBag.Rooms)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.BookingGuest.FullName)
+                @Html.DropDownListFor(model => model.BookingGuest.Id, (SelectList)ViewBag.Guests)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Set)
+                @Html.EditorFor(model => model.Set)
+            </div>
+            <div class="form-group">
+                <input type="submit" action="Create" class="btn" value="Create" />
+            </div>
+        </div>
+    }*@
+
+
+
+@model HotelWEB.Models.BookingModel
 @{
     ViewBag.Title = "Create";
 }
@@ -33,4 +71,3 @@
         </div>
     </div>
 }
-

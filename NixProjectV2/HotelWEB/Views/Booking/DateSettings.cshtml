@@ -1,0 +1,24 @@
+﻿@model HotelWEB.Models.BookingModel
+
+@{
+    ViewBag.Title = "DateSettings";
+}
+
+<h2>DateSettings</h2>
+@using (Html.BeginForm())
+{
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(model => model.EnterDate)
+        <input type="datetime-local" name="EnterDate" required/>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.LeaveDate)
+        <input type="datetime-local" name="LeaveDate" required/>
+    </div>
+    <div class="form-group">
+        <input type="submit" action="Create" class="btn" value="Ok" />
+    </div>
+</div>
+}
+

@@ -1,0 +1,48 @@
+﻿@model HotelWEB.Models.BookingModel
+
+@{
+    ViewBag.Title = "RoomSettings";
+}
+
+<h2>RoomSettings</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.LabelFor(model => model.BookingRoom.Name)
+            </th>
+            <th>
+                @Html.LabelFor(model => model.BookingRoom.RoomCategory.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var room in ViewBag.Rooms)
+        {
+        <tr>
+            <td>
+                @Html.Raw(room.Name)
+            </td>
+            <td>
+                @Html.Raw(room.RoomCategory.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new
+                {
+                    id = room.Id
+                })
+            </td>
+            <td>
+                @Html.ActionLink("Select Room", "GuestSettings", new
+                {
+                    enterDate = Model.EnterDate,
+                    leaveDate = Model.LeaveDate,
+                    bookingRoom = room.Id
+                })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

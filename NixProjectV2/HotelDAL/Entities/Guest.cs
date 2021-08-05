@@ -11,10 +11,15 @@ namespace HotelDAL.Entities
     {
         [Key]
         public int Id { set; get; }
+        //[Required]
         public string Name { set; get; }
+        //[Required]
         public string Surname { set; get; }
+        //[Required]
         public DateTime ActionTime { get; set; }
+        //[Required]
         public string ActionType { get; set; }
+        //[Required]
         public int ActionUserId { get; set; }
 
         public override bool Equals(object obj)

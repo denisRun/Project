@@ -11,16 +11,16 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="form-group col-xs-5">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { size = "1000px" }, })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @required = "required" } })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Price)
-        @Html.EditorFor(model => model.Price)
+        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @required = "required" } })
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Bed)
-        @Html.EditorFor(model => model.Bed)
+        @Html.EditorFor(model => model.Bed, new { htmlAttributes = new { @required = "required" } })
     </div>
     <div class="form-group">
         <input type="submit" action="Edit" class="btn" value="Edit" />

@@ -232,6 +232,10 @@
     <Content Include="Views\Booking\CheckIn.cshtml" />
     <Content Include="Views\Booking\CheckOut.cshtml" />
     <Content Include="Views\Booking\MoneyPerMonth.cshtml" />
+    <Content Include="Views\Room\FreeRooms.cshtml" />
+    <Content Include="Views\Booking\DateSettings.cshtml" />
+    <Content Include="Views\Booking\RoomSettings.cshtml" />
+    <Content Include="Views\Booking\GuestSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,7 +8,6 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    font-size: 36px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -22,5 +21,5 @@
 input,
 select,
 textarea {
-    width:100%;
+    width:80%;
 }

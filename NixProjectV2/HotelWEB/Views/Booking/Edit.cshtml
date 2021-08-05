@@ -10,11 +10,11 @@
     <div class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(model => model.EnterDate)
-                <input type="datetime-local" name="EnterDate" value="@Model.EnterDate.ToString("yyyy-MM-ddThh:mm")" />
+                <input type="datetime-local" required name="EnterDate" value="@Model.EnterDate.ToString("yyyy-MM-ddThh:mm")" />
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.LeaveDate)
-            <input type="datetime-local" name="LeaveDate" value="@Model.LeaveDate.ToString("yyyy-MM-ddThh:mm")"/>
+            <input type="datetime-local" required name="LeaveDate" value="@Model.LeaveDate.ToString("yyyy-MM-ddThh:mm")"/>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.BookingGuest.FullName)

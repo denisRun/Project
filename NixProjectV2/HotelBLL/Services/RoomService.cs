@@ -7,8 +7,6 @@ using HotelDAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelBLL.Services
 {
@@ -38,6 +36,25 @@ namespace HotelBLL.Services
             return mapperModelToDto.Map<Room, RoomDTO>(room);
         }
 
+        public IEnumerable<RoomDTO> GetFreeRooms(DateTime startDate, DateTime endDate)
+        {
+            var freeRooms = new List<Room>();
+            var rooms = Database.Rooms.GetAll();
+            var bookings = Database.Bookings.GetAll();
+            var roomsInUse = bookings.Where(b => (b.EnterDate <= startDate && b.LeaveDate > startDate) ||
+                (b.EnterDate > startDate && b.EnterDate <= endDate)).Select(b => b.BookingRoom.Id);
+
+            foreach (var room in rooms)
+            {
+                if (!roomsInUse.Contains(room.Id))
+                {
+                    freeRooms.Add(room);
+                }
+            }
+
+            return mapperModelToDto.Map<IEnumerable<Room>, List<RoomDTO>>(freeRooms.Distinct());
+        }
+
         public void Create(RoomDTO room)
         {
             string actionType = "Create";
@@ -48,7 +65,7 @@ namespace HotelBLL.Services
                 CategoryId = room.RoomCategory.Id,
                 ActionType = actionType,
                 ActionTime = actionTime,
-                ActionUserId =room.ActionUserId
+                ActionUserId = room.ActionUserId
             };
 
             Database.Rooms.Create(data);
@@ -61,7 +78,7 @@ namespace HotelBLL.Services
             DateTime actionTime = DateTime.Now;
             var data = new Room
             {
-                Id=room.Id,
+                Id = room.Id,
                 Name = room.Name,
                 CategoryId = room.RoomCategory.Id,
                 ActionType = actionType,

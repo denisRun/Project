@@ -42,6 +42,16 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        public ActionResult FreeRooms()
+        {
+            var startDate = DateTime.Now;
+            var endDate = DateTime.Now.AddDays(5);
+
+            var data = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(
+                service.GetFreeRooms(startDate,endDate));
+            return View(data);
+        }
+
         [HttpGet]
         public ActionResult Create()
         {

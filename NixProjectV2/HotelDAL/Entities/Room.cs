@@ -12,10 +12,15 @@ namespace HotelDAL.Entities
     {
         [Key]
         public int Id { set; get; }
+        //[Required]
         public string Name { set; get; }
+        //[Required]
         public int CategoryId { set; get; }
+        //[Required]
         public DateTime ActionTime { get; set; }
+        //[Required]
         public string ActionType { get; set; }
+        //[Required]
         public int ActionUserId { get; set; }
 
         [ForeignKey("CategoryId")]

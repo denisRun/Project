@@ -50,52 +50,99 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
-        [HttpGet]
-        public ActionResult Create()
+        public ActionResult DateSettings()
         {
-            var guests = mapperGuest.Map<IEnumerable<GuestDTO>, List<GuestModel>>(serviceGuest.GetAllGuests());
-            var rooms = mapperRoom.Map<IEnumerable<RoomDTO>, List<RoomModel>>(serviceRoom.GetAllRooms());
-            SelectList guestsList = new SelectList(guests, "Id", "FullName");
-            SelectList roomsList = new SelectList(rooms, "Id", "Name");
-            ViewBag.Guests = guestsList;
-            ViewBag.Rooms = roomsList;
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(BookingModel model)
+        public ActionResult DateSettings(BookingModel booking)
         {
-            if (ModelState.IsValid)
-            {
-                model.UserId = Convert.ToInt32(User.Identity.Name);
-                model.ActionUserId = model.UserId;
-                var modelDTO = new BookingDTO()
-                {
-                    Id = model.Id,
-                    UserId = model.UserId,
-                    BookingDate = model.BookingDate,
-                    EnterDate = model.EnterDate,
-                    LeaveDate = model.LeaveDate,
-                    Set = model.Set,
-                    ActionUserId = model.ActionUserId,
-                    BookingRoom = new RoomDTO()
-                    {
-                        Id = model.BookingRoom.Id
-                    },
-                    BookingGuest = new GuestDTO()
-                    {
-                        Id = model.BookingGuest.Id
-                    }
-                };
+            return RedirectToAction("RoomSettings", booking);
+        }
 
-                service.Create(modelDTO);
-                return RedirectToAction("Index");
-            }
+        public ActionResult RoomSettings(BookingModel booking)
+        {
+            var rooms = mapperRoom.Map<IEnumerable<RoomDTO>, List<RoomModel>>(
+                serviceRoom.GetFreeRooms(booking.EnterDate, booking.LeaveDate));
+            ViewBag.Rooms = rooms;
+            return View(booking);
+        }
 
-            ModelState.AddModelError("", "Model is invalid");
+        public ActionResult GuestSettings(DateTime enterDate, DateTime leaveDate, dynamic bookingRoom)
+        {
+            var rooms = mapperGuest.Map<IEnumerable<GuestDTO>, List<GuestModel>>(
+                serviceGuest.GetAllGuests());
+            var roomId = Convert.ToInt32(bookingRoom[0]);
+            ViewBag.Guests = rooms;
+            ViewBag.enterDate = enterDate;
+            ViewBag.leaveDate = leaveDate;
+            ViewBag.bookingRoom = roomId;
             return View();
         }
+
+        public ActionResult Create(DateTime enterDate, DateTime leaveDate, dynamic bookingRoom, dynamic bookingGuest)
+        {
+            var roomId = Convert.ToInt32(bookingRoom[0]);
+            var guestId = Convert.ToInt32(bookingGuest[0]);
+            var userId = Convert.ToInt32(User.Identity.Name);
+
+            var modelDTO = new BookingDTO()
+            {
+                UserId = userId,
+                ActionUserId = userId,
+                EnterDate = enterDate,
+                LeaveDate = leaveDate,
+                BookingRoom = new RoomDTO()
+                {
+                    Id = roomId
+                },
+                BookingGuest = new GuestDTO()
+                {
+                    Id = guestId
+                }
+            };
+            service.Create(modelDTO);
+            return RedirectToAction("Index");
+        }
+
+
+        //[HttpPost]
+        //public ActionResult Create(BookingModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        model.UserId = Convert.ToInt32(User.Identity.Name);
+        //        model.ActionUserId = model.UserId;
+        //        var modelDTO = new BookingDTO()
+        //        {
+        //            Id = model.Id,
+        //            UserId = model.UserId,
+        //            BookingDate = model.BookingDate,
+        //            EnterDate = model.EnterDate,
+        //            LeaveDate = model.LeaveDate,
+        //            Set = model.Set,
+        //            ActionUserId = model.ActionUserId,
+        //            BookingRoom = new RoomDTO()
+        //            {
+        //                Id = model.BookingRoom.Id,
+        //                Name = model.BookingRoom.Name
+        //            },
+        //            BookingGuest = new GuestDTO()
+        //            {
+        //                Id = model.BookingGuest.Id,
+        //                Name=model.BookingGuest.Name,
+        //                Surname=model.BookingGuest.Surname
+        //            }
+        //        };
+
+        //        service.Create(modelDTO);
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    ModelState.AddModelError("", "Model is invalid");
+        //    return View();
+        //}
 
         [HttpGet]
         public ActionResult Edit(int id)
