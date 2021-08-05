@@ -1,11 +1,17 @@
 ﻿@model List<HotelWEB.Models.CategoryModel>
-@{
-    ViewBag.Title = "Index";
-}
+@{ ViewBag.Title = "Index"; }
 
-<h2>Index</h2>
+<div class="row" style="margin-top:30px">
+    <div class="col-xs-3">
+        <h2>All Categories</h2>
+    </div>
+    <div class="col-xs-1 col-xs-offset-8">
+        <h1> @Html.ActionLink(" ", "Create", null, 
+                 new { @class = "glyphicon glyphicon-plus", style = "color:SeaGreen" }) </h1>
+</div>
+</div>
 
-<table class="table table-hover">
+<table class="table table-hover form-top-mg" style="margin-left:10px">
     <thead>
         <tr>
             <th>
@@ -24,28 +30,36 @@
                 @Html.Raw(category.Name)
             </td>
             <td>
-                @Html.Raw(category.Price)
+                @Html.Raw(category.Price + "&#36");
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new
-                {
-                    id = category.Id
-                })
+                <h4>
+                    @Html.ActionLink(" ", "Details", new
+                    {
+                        id = category.Id
+                    },
+                    new { @class = "glyphicon glyphicon-zoom-in"})
+                </h4>
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new
-                {
-                    id = category.Id
-                })
+                <h4>
+                    @Html.ActionLink(" ", "Edit", new
+                    {
+                        id = category.Id
+                    },
+                    new { @class = "glyphicon glyphicon-cog" })
+                </h4>
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new
-                {
-                    id = category.Id
-                })
+                <h4>
+                    @Html.ActionLink(" ", "Delete", new
+                    {
+                        id = category.Id
+                    },
+                    new { @class = "glyphicon glyphicon-remove", style = "color:orangered;" })
+                </h4>
             </td>
         </tr>
-        }
+         }
     </tbody>
 </table>
-@Html.ActionLink("Create", "Create",null, new[] { "btn" })

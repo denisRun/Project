@@ -10,6 +10,29 @@
     padding-right: 15px;
 }
 
+.form-top-mg{
+    margin-top:30px;
+}
+
+.form-bottom-mg {
+    margin-bottom: 20px;
+}
+
+.border {
+    border-radius: 20px;
+    background-color: rgb(240, 240, 240);
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 80px;
+}
+
+.field-validation-error{
+    color:orangered;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -21,5 +44,5 @@
 input,
 select,
 textarea {
-    width:80%;
+    width:70%;
 }

@@ -10,7 +10,7 @@ namespace HotelWEB.Models
     public class CategoryModel
     {
         public int Id { set; get; }
-        [DisplayName("Category Name")]
+        [DisplayName("Category")]
         public string Name { set; get; }
         [DisplayName("Category Price")]
         public decimal Price { set; get; }
