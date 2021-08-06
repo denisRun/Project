@@ -8,6 +8,7 @@ namespace HotelAPI.Models
     public class BookingModel
     {
         public int Id { set; get; }
+        public int UserId { set; get; }
         public GuestModel BookingGuest { set; get; }
         public RoomModel BookingRoom { set; get; }
         public DateTime BookingDate { set; get; }

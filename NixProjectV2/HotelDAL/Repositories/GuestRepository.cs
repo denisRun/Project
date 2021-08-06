@@ -36,6 +36,7 @@ namespace HotelDAL.Repositories
         public void Update(int guestId, Guest value)
         {
             var guest = db.Guests.FirstOrDefault(m => m.Id == guestId);
+
             if (guest != null)
             {
                 guest.Name = value.Name ?? guest.Name;
@@ -44,12 +45,12 @@ namespace HotelDAL.Repositories
                 guest.ActionType = value.ActionType ?? guest.ActionType;
                 guest.ActionUserId = value.ActionUserId > 0 ? value.ActionUserId : guest.ActionUserId;
             }
-
         }
 
         public void Delete(int id)
         {
             Guest guest = Get(id);
+
             if (guest != null)
             {
                 db.Guests.Remove(guest);

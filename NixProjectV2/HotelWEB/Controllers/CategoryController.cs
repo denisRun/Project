@@ -24,7 +24,8 @@ namespace HotelWEB.Controllers
             this.mapperToDTO = new MapperConfiguration(cfg =>
                 cfg.CreateMap<CategoryModel, CategoryDTO>()).CreateMapper();
         }
-        
+
+        [Authorize]
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(
@@ -32,6 +33,7 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         public ActionResult Details(int id)
         {
             var data = mapper.Map<CategoryDTO, CategoryModel>(
@@ -39,12 +41,14 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Create(CategoryModel model)
         {
@@ -74,6 +78,7 @@ namespace HotelWEB.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -81,6 +86,7 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(CategoryModel model)
         {
@@ -110,6 +116,7 @@ namespace HotelWEB.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             service.Delete(id);

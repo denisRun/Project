@@ -42,14 +42,16 @@ namespace HotelAPI.Controllers
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
             if (id < 1)
+            {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
 
             try
             {
                 GuestDTO data = service.Get(id);
                 var guest = new GuestModel();
 
-                if (data.Id != 0)
+                if (data !=null)
                 {
                     guest = mapper.Map<GuestDTO, GuestModel>(data);
                     return request.CreateResponse(HttpStatusCode.OK, guest);
@@ -68,9 +70,9 @@ namespace HotelAPI.Controllers
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
-                var data = mapper.Map<GuestModel, GuestDTO>(value);
-
+                var mapperToDTO = new MapperConfiguration(cfg =>
+                    cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
+                var data = mapperToDTO.Map<GuestModel, GuestDTO>(value);
                 service.Create(data);
                 return request.CreateResponse(HttpStatusCode.OK);
             }
@@ -90,8 +92,9 @@ namespace HotelAPI.Controllers
 
                 if (guest != null)
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
-                    var data = mapper.Map<GuestModel, GuestDTO>(value);
+                    var mapperToDTO = new MapperConfiguration(cfg =>
+                        cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
+                    var data = mapperToDTO.Map<GuestModel, GuestDTO>(value);
                     service.Update(id, data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -116,6 +119,7 @@ namespace HotelAPI.Controllers
                     service.Delete(id);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
+
                 return request.CreateResponse(HttpStatusCode.NotFound);
             }
             catch (Exception exception)

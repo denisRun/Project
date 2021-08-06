@@ -3,7 +3,7 @@
 @{ ViewBag.Title = "Register"; }
 
 <h2 class="mt-4 mb-4">Register</h2>
-@Html.ValidationSummary(true)
+
 
 @using (Html.BeginForm())
 {
@@ -48,6 +48,7 @@
                     @Html.ValidationMessageFor(model => model.RepeatPassword)
                 </div>
             </div>
+            @Html.ValidationSummary(true)
             <div class="form-group ">
                 <div class="col-xs-3 col-xs-offset-6">
                     <input type="submit" action="Create" class="btn btn-primary mb-2" value="Register" />

@@ -49,7 +49,7 @@ namespace HotelAPI.Controllers
 
                 BookingDTO data = service.Get(id);
 
-                if (data.Id != 0)
+                if (data != null)
                 {
                     var booking = mapper.Map<BookingDTO, BookingModel>(data);
                     return request.CreateResponse(HttpStatusCode.OK, booking);
@@ -68,32 +68,7 @@ namespace HotelAPI.Controllers
         {
             try
             {
-                var data = new BookingDTO()
-                {
-                    BookingGuest = new GuestDTO()
-                    {
-                        Id = value.BookingGuest.Id,
-                        Name = value.BookingGuest.Name,
-                        Surname = value.BookingGuest.Surname
-                    },
-                    BookingRoom = new RoomDTO()
-                    {
-                        Id = value.BookingRoom.Id,
-                        Name = value.BookingRoom.Name,
-                        RoomCategory = new CategoryDTO()
-                        {
-                            Id = value.BookingRoom.RoomCategory.Id,
-                            Name = value.BookingRoom.RoomCategory.Name,
-                            Price = value.BookingRoom.RoomCategory.Price,
-                            Bed = value.BookingRoom.RoomCategory.Bed
-                        }
-                    },
-                    BookingDate = value.BookingDate,
-                    EnterDate = value.EnterDate,
-                    LeaveDate = value.LeaveDate,
-                    Set = value.Set
-                };
-
+                var data = Helpers.Mapper.MapToBookingDTO(value);
                 service.Create(data);
                 return request.CreateResponse(HttpStatusCode.OK);
             }
@@ -114,33 +89,7 @@ namespace HotelAPI.Controllers
 
                 if (booking != null)
                 {
-                    var data = new BookingDTO()
-                    {
-                        BookingGuest = new GuestDTO()
-                        {
-                            Id = value.BookingGuest.Id,
-                            Name = value.BookingGuest.Name,
-                            Surname = value.BookingGuest.Surname
-                        },
-                        BookingRoom = new RoomDTO()
-                        {
-                            Id = value.BookingRoom.Id,
-                            Name = value.BookingRoom.Name,
-                            RoomCategory = new CategoryDTO()
-                            {
-                                Id = value.BookingRoom.RoomCategory.Id,
-                                Name = value.BookingRoom.RoomCategory.Name,
-                                Price = value.BookingRoom.RoomCategory.Price,
-                                Bed = value.BookingRoom.RoomCategory.Bed
-                            }
-                        },
-                        Id = value.Id,
-                        BookingDate = value.BookingDate,
-                        EnterDate = value.EnterDate,
-                        LeaveDate = value.LeaveDate,
-                        Set = value.Set
-                    };
-
+                    var data = Helpers.Mapper.MapToBookingDTO(value);
                     service.Update(id, data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -168,7 +117,9 @@ namespace HotelAPI.Controllers
                     foreach (var booking in bookings)
                     {
                         string key = booking.EnterDate.ToString("yyyy.MM");
-                        decimal sum = Decimal.Parse((booking.LeaveDate - booking.EnterDate).TotalDays.ToString()) * booking.BookingRoom.RoomCategory.Price;
+                        decimal sum = Decimal.Parse(
+                            (booking.LeaveDate - booking.EnterDate).TotalDays.ToString()) *
+                            booking.BookingRoom.RoomCategory.Price;
 
                         if (money.ContainsKey(key))
                             money[key] += sum;
@@ -197,9 +148,9 @@ namespace HotelAPI.Controllers
             {
                 var booking = service.Get(id);
 
-                if (booking.Id > 0)
+                if (booking != null)
                 {
-                    booking.Set = "yes";
+                    booking.Set = "Checked In";
                     service.Update(id, booking);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }

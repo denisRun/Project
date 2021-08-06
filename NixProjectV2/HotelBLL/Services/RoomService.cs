@@ -27,7 +27,8 @@ namespace HotelBLL.Services
 
         public IEnumerable<RoomDTO> GetAllRooms()
         {
-            return mapperModelToDto.Map<IEnumerable<Room>, List<RoomDTO>>(Database.Rooms.GetAll());
+            return mapperModelToDto.Map<IEnumerable<Room>, List<RoomDTO>>(
+                Database.Rooms.GetAll());
         }
 
         public RoomDTO Get(int id)
@@ -41,8 +42,10 @@ namespace HotelBLL.Services
             var freeRooms = new List<Room>();
             var rooms = Database.Rooms.GetAll();
             var bookings = Database.Bookings.GetAll();
-            var roomsInUse = bookings.Where(b => (b.EnterDate <= startDate && b.LeaveDate > startDate) ||
-                (b.EnterDate > startDate && b.EnterDate <= endDate)).Select(b => b.BookingRoom.Id);
+            var roomsInUse = bookings.Where(b => 
+                (b.EnterDate <= startDate && b.LeaveDate > startDate) ||
+                (b.EnterDate > startDate && b.EnterDate <= endDate)).
+                Select(b => b.BookingRoom.Id);
 
             foreach (var room in rooms)
             {
@@ -52,21 +55,17 @@ namespace HotelBLL.Services
                 }
             }
 
-            return mapperModelToDto.Map<IEnumerable<Room>, List<RoomDTO>>(freeRooms.Distinct());
+            return mapperModelToDto.Map<IEnumerable<Room>, List<RoomDTO>>(
+                freeRooms.Distinct());
         }
 
         public void Create(RoomDTO room)
         {
             string actionType = "Create";
             DateTime actionTime = DateTime.Now;
-            var data = new Room
-            {
-                Name = room.Name,
-                CategoryId = room.RoomCategory.Id,
-                ActionType = actionType,
-                ActionTime = actionTime,
-                ActionUserId = room.ActionUserId
-            };
+            room.ActionType = actionType;
+            room.ActionTime = actionTime;
+            var data = Helpers.Mapper.MapToRoom(room);
 
             Database.Rooms.Create(data);
             Database.Save();
@@ -76,15 +75,9 @@ namespace HotelBLL.Services
         {
             string actionType = "Update";
             DateTime actionTime = DateTime.Now;
-            var data = new Room
-            {
-                Id = room.Id,
-                Name = room.Name,
-                CategoryId = room.RoomCategory.Id,
-                ActionType = actionType,
-                ActionTime = actionTime,
-                ActionUserId = room.ActionUserId
-            };
+            room.ActionType = actionType;
+            room.ActionTime = actionTime;
+            var data = Helpers.Mapper.MapToRoom(room);
 
             Database.Rooms.Update(id, data);
             Database.Save();

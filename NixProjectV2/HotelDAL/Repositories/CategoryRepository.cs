@@ -36,6 +36,7 @@ namespace HotelDAL.Repositories
         public void Update(int categoryId, Category value)
         {
             var category = db.Categories.FirstOrDefault(m => m.Id == categoryId);
+
             if (category != null)
             {
                 category.Name = value.Name ?? category.Name;
@@ -45,12 +46,12 @@ namespace HotelDAL.Repositories
                 category.ActionType = value.ActionType ?? category.ActionType;
                 category.ActionUserId = value.ActionUserId > 0 ? value.ActionUserId : category.ActionUserId;
             }
-
         }
 
         public void Delete(int id)
         {
             Category category = Get(id);
+
             if (category != null)
             {
                 db.Categories.Remove(category);

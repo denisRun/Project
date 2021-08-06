@@ -36,6 +36,7 @@ namespace HotelDAL.Repositories
         public void Delete(int id)
         {
             Room room = Get(id);
+
             if (room != null)
             {
                 db.Rooms.Remove(room);
@@ -45,6 +46,7 @@ namespace HotelDAL.Repositories
         public void Update(int roomId, Room value)
         {
             var room = db.Rooms.FirstOrDefault(m => m.Id == roomId);
+
             if (room != null)
             {
                 room.CategoryId = value.CategoryId > 0 ? value.CategoryId : room.CategoryId;
@@ -53,7 +55,6 @@ namespace HotelDAL.Repositories
                 room.ActionType = value.ActionType ?? room.ActionType;
                 room.ActionUserId = value.ActionUserId > 0 ? value.ActionUserId : room.ActionUserId;
             }
-
         }
     }
 }

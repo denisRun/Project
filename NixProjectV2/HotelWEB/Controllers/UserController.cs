@@ -61,7 +61,25 @@ namespace HotelWEB.Controllers
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
-            {
+            {   
+                if(model.Login.Length < 5)
+                {
+                    ModelState.AddModelError("Login", "Login too short");
+                }
+
+                if (model.FullName.Length < 5)
+                {
+                    ModelState.AddModelError("FullName", "FullName too short");
+                }
+                if (model.Password.Length < 5)
+                {
+                    ModelState.AddModelError("Password", "Password too short");
+                }
+                if (model.RepeatPassword.Length < 5)
+                {
+                    ModelState.AddModelError("RepeatPassword", "Password too short");
+                }
+
                 if (model.Password == model.RepeatPassword)
                 {
                     IMapper mapperRegisterToDTO = new MapperConfiguration(cfg =>

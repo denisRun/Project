@@ -25,6 +25,7 @@ namespace HotelWEB.Controllers
                cfg.CreateMap<GuestModel, GuestDTO>()).CreateMapper();
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<GuestDTO>, List<GuestModel>>(
@@ -32,18 +33,21 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         public ActionResult Details(int id)
         {
             var data = mapper.Map<GuestDTO, GuestModel>(service.Get(id));
             return View(data);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Create(GuestModel model)
         {
@@ -71,6 +75,7 @@ namespace HotelWEB.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -105,6 +110,7 @@ namespace HotelWEB.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             service.Delete(id);

@@ -42,13 +42,15 @@ namespace HotelAPI.Controllers
         public HttpResponseMessage Get(HttpRequestMessage request, int id)
         {
             if (id < 1)
+            {
                 return request.CreateResponse(HttpStatusCode.BadRequest);
+            }
 
             try
             {
                 RoomDTO data = service.Get(id);
 
-                if (data.Id != 0)
+                if (data != null)
                 {
                     var room = mapper.Map<RoomDTO, RoomModel>(data);
                     return request.CreateResponse(HttpStatusCode.OK, room);
@@ -66,9 +68,7 @@ namespace HotelAPI.Controllers
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
-                var data = mapper.Map<RoomModel, RoomDTO>(value);
-
+                var data = Helpers.Mapper.MapToRoomDTO(value);
                 service.Create(data);
                 return request.CreateResponse(HttpStatusCode.OK);
             }
@@ -87,8 +87,7 @@ namespace HotelAPI.Controllers
 
                 if (room != null)
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
-                    var data = mapper.Map<RoomModel, RoomDTO>(value);
+                    var data = Helpers.Mapper.MapToRoomDTO(value);
                     service.Update(id, data);
                     return request.CreateResponse(HttpStatusCode.OK);
                 }

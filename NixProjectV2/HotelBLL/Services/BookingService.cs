@@ -25,12 +25,14 @@ namespace HotelBLL.Services
 
         public IEnumerable<BookingDTO> GetAllBookings()
         {
-            return mapperModelToDto.Map<IEnumerable<Booking>, List<BookingDTO>>(Database.Bookings.GetAll());
+            return mapperModelToDto.Map<IEnumerable<Booking>, List<BookingDTO>>(
+                Database.Bookings.GetAll());
         }
 
         public BookingDTO Get(int id)
         {
-            return mapperModelToDto.Map<Booking, BookingDTO>(Database.Bookings.Get(id));
+            return mapperModelToDto.Map<Booking, BookingDTO>
+                (Database.Bookings.Get(id));
         }
 
         public void Create(BookingDTO booking)

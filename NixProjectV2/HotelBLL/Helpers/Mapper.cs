@@ -28,5 +28,19 @@ namespace HotelBLL.Helpers
 
             return result;
         }
+
+        public static Room MapToRoom(RoomDTO value)
+        {
+            var result = new Room()
+            {
+                Name = value.Name,
+                CategoryId = value.RoomCategory.Id,
+                ActionType = value.ActionType,
+                ActionTime = value.ActionTime,
+                ActionUserId = value.ActionUserId
+            };
+
+            return result;
+        }
     }
 }

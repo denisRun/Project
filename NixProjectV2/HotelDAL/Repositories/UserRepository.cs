@@ -36,18 +36,19 @@ namespace HotelDAL.Repositories
         public void Update(int categoryId, User value)
         {
             var user = db.Users.FirstOrDefault(m => m.Id == categoryId);
+
             if (user != null)
             {
                 user.Login = value.Login ?? user.Login;
                 user.Password = value.Password ?? user.Password;
                 user.FullName = value.FullName ?? user.FullName;
             }
-
         }
 
         public void Delete(int id)
         {
             User user = Get(id);
+
             if (user != null)
             {
                 db.Users.Remove(user);

@@ -19,7 +19,6 @@ namespace HotelWEB.Controllers
         IMapper mapperGuest;
         IMapper mapperRoom;
 
-
         public BookingController(IBookingService service, IGuestService serviceGuest,
             IRoomService serviceRoom)
         {
@@ -34,7 +33,8 @@ namespace HotelWEB.Controllers
                 cfg.CreateMap<RoomDTO, RoomModel>()).CreateMapper();
 
         }
-        // GET: Booking
+
+        [Authorize]
         public ActionResult Index()
         {
             var data = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(
@@ -42,6 +42,7 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         public ActionResult Details(int id)
         {
             var data = mapper.Map<BookingDTO, BookingModel>(
@@ -49,11 +50,13 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         public ActionResult DateSettings()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult DateSettings(BookingModel booking)
         {
@@ -77,6 +80,7 @@ namespace HotelWEB.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult RoomSettings(BookingModel booking)
         {
             var rooms = mapperRoom.Map<IEnumerable<RoomDTO>, List<RoomModel>>(
@@ -85,6 +89,7 @@ namespace HotelWEB.Controllers
             return View(booking);
         }
 
+        [Authorize]
         public ActionResult GuestSettings(DateTime enterDate, DateTime leaveDate, dynamic bookingRoom)
         {
             var rooms = mapperGuest.Map<IEnumerable<GuestDTO>, List<GuestModel>>(
@@ -98,6 +103,7 @@ namespace HotelWEB.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Create(DateTime enterDate, DateTime leaveDate,
             dynamic bookingRoom, dynamic bookingGuest)
         {
@@ -120,6 +126,7 @@ namespace HotelWEB.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -136,6 +143,7 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(BookingModel model)
         {
@@ -151,24 +159,28 @@ namespace HotelWEB.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             service.Delete(id);
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public ActionResult CheckIn(int id)
         {
             service.CheckIn(id);
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public ActionResult CheckOut(int id)
         {
             service.CheckOut(id);
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public ActionResult MoneyPerMonth()
         {
             var bookings = service.GetAllBookings();

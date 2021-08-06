@@ -28,12 +28,14 @@ namespace HotelBLL.Services
 
         public IEnumerable<CategoryDTO> GetAllCategories()
         {
-            return mapperModelToDto.Map<IEnumerable<Category>, List<CategoryDTO>>(Database.Categories.GetAll());
+            return mapperModelToDto.Map<IEnumerable<Category>, List<CategoryDTO>>(
+                Database.Categories.GetAll());
         }
 
         public CategoryDTO Get(int id)
         {
-            return mapperModelToDto.Map<Category, CategoryDTO>(Database.Categories.Get(id));
+            return mapperModelToDto.Map<Category, CategoryDTO>(
+                Database.Categories.Get(id));
         }
 
         public void Create(CategoryDTO category)

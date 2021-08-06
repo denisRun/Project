@@ -29,20 +29,22 @@ namespace HotelBLL.Services
 
         public IEnumerable<UserDTO> GetAllUsers()
         {
-            return mapperModelToDto.Map<IEnumerable<User>, List<UserDTO>>(Database.Users.GetAll());
+            return mapperModelToDto.Map<IEnumerable<User>, List<UserDTO>>(
+                Database.Users.GetAll());
         }
 
         public UserDTO Get(int id)
         {
-            return mapperModelToDto.Map<User, UserDTO>(Database.Users.Get(id));
+            return mapperModelToDto.Map<User, UserDTO>(
+                Database.Users.Get(id));
         }
 
         public UserDTO Login(UserDTO user)
         {
             user.Password = Crypto.Hash(user.Password);
             var users = Database.Users.GetAll();
-            var result = users.FirstOrDefault(us => us.Login == user.Login
-                && us.Password == user.Password); 
+            var result = users.FirstOrDefault(us =>
+                us.Login == user.Login && us.Password == user.Password); 
             
             return mapperModelToDto.Map<User, UserDTO>(result);
         }
