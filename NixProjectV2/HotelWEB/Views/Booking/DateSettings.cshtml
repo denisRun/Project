@@ -4,21 +4,37 @@
     ViewBag.Title = "DateSettings";
 }
 
-<h2>DateSettings</h2>
+<h2 class="mt-4 mb-4">Set Booking Dates</h2>
+
 @using (Html.BeginForm())
 {
-<div class="form-horizontal">
-    <div class="form-group">
-        @Html.LabelFor(model => model.EnterDate)
-        <input type="datetime-local" name="EnterDate" required/>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.LeaveDate)
-        <input type="datetime-local" name="LeaveDate" required/>
-    </div>
-    <div class="form-group">
-        <input type="submit" action="Create" class="btn" value="Ok" />
-    </div>
-</div>
-}
+    <div class="form-horizontal  container">
+        <div class="col-xs-10 col-xs-offset-1 table-bordered border">
+            <div class="form-group mt-3">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <h4>@Html.LabelFor(model => model.EnterDate)</h4>
+                </div>
+                <div class="col-xs-8">
+                    <input class="form-control input-lg" type="datetime-local" format-value="yyyy-MM-ddTHH:mm" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required name="EnterDate" value="" />
+                    @Html.ValidationMessageFor(model => model.EnterDate)
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <h4>@Html.LabelFor(model => model.LeaveDate)</h4>
+                </div>
+                <div class="col-xs-8">
+                    <input class="form-control input-lg" type="datetime-local" format-value="yyyy-MM-ddTHH:mm" min="@(DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm"))" required name="LeaveDate" value="" />
+                    @Html.ValidationMessageFor(model => model.LeaveDate)
+                </div>
+            </div>
+            <div class="form-group ">
+                <div class="col-xs-3 col-xs-offset-6">
+                    <input type="submit" action="Create" class="btn btn-primary mb-2" value="OK" />
+                </div>
+            </div>
+        </div>
+    </div>}
+
+
 

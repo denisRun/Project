@@ -1,39 +1,57 @@
 ﻿@model HotelWEB.Models.RegisterModel
 
-@{
-    ViewBag.Title = "Register";
-}
+@{ ViewBag.Title = "Register"; }
 
-<h2>Register</h2>
+<h2 class="mt-4 mb-4">Register</h2>
 @Html.ValidationSummary(true)
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.FullName)
-            @Html.EditorFor(model => model.FullName)
-            @Html.ValidationMessageFor(model => model.FullName)
+    <div class="form-horizontal  container">
+        <div class="col-xs-10 col-xs-offset-1 table-bordered border">
+            <div class="form-group mt-3">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <h4>@Html.LabelFor(model => model.FullName)</h4>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control input-lg", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.FullName)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <h4> @Html.LabelFor(model => model.Login)</h4>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control input-lg", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Login)
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <h4> @Html.LabelFor(model => model.Password)</h4>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-lg", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <h4> @Html.LabelFor(model => model.RepeatPassword)</h4>
+                </div>
+                <div class="col-xs-8">
+                    @Html.EditorFor(model => model.RepeatPassword, new { htmlAttributes = new { @class = "form-control input-lg", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.RepeatPassword)
+                </div>
+            </div>
+            <div class="form-group ">
+                <div class="col-xs-3 col-xs-offset-6">
+                    <input type="submit" action="Create" class="btn btn-primary mb-2" value="Register" />
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Login)
-            @Html.EditorFor(model => model.Login)
-            @Html.ValidationMessageFor(model => model.Login)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password)
-            @Html.EditorFor(model => model.Password)
-            @Html.ValidationMessageFor(model => model.Password)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.RepeatPassword)
-            @Html.EditorFor(model => model.RepeatPassword)
-            @Html.ValidationMessageFor(model => model.RepeatPassword)
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn" value="Register" />
-        </div>
-    </div>
-}
+    </div>}

@@ -31,6 +31,7 @@ namespace HotelWEB.Controllers
             FormsAuthentication.SignOut();
             return View();
         }
+
         [HttpPost]
         public ActionResult Login(UserModel user)
         {           
@@ -78,6 +79,7 @@ namespace HotelWEB.Controllers
                     ModelState.AddModelError("", "Password didn`t match");
                 }
             }
+
             return View();
         }
     }

@@ -27,13 +27,15 @@ namespace HotelWEB.Controllers
         
         public ActionResult Index()
         {
-            var data = mapper.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(service.GetAllCategories());
+            var data = mapper.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(
+                service.GetAllCategories());
             return View(data);
         }
 
         public ActionResult Details(int id)
         {
-            var data = mapper.Map<CategoryDTO, CategoryModel>(service.Get(id));
+            var data = mapper.Map<CategoryDTO, CategoryModel>(
+                service.Get(id));
             return View(data);
         }
 
@@ -50,11 +52,13 @@ namespace HotelWEB.Controllers
             {
                 if (model.Price <= 0)
                 {
-                    ModelState.AddModelError("Price", "Price must be positive");
+                    ModelState.AddModelError("Price",
+                        "Price must be positive");
                 }
                 if (model.Bed <= 0)
                 {
-                    ModelState.AddModelError("Bed", "Amount of places must be positive");
+                    ModelState.AddModelError("Bed",
+                        "Amount of places must be positive");
                 }
 
                 if (ModelState.IsValid)
@@ -65,8 +69,8 @@ namespace HotelWEB.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
             ModelState.AddModelError("", "Model is invalid");
+
             return View(model);
         }
 
@@ -84,11 +88,13 @@ namespace HotelWEB.Controllers
             {
                 if (model.Price <= 0)
                 {
-                    ModelState.AddModelError("Price", "Price must be positive");
+                    ModelState.AddModelError("Price",
+                        "Price must be positive");
                 }
                 if (model.Bed <= 0)
                 {
-                    ModelState.AddModelError("Bed", "Amount of places must be positive");
+                    ModelState.AddModelError("Bed",
+                        "Amount of places must be positive");
                 }
 
                 if (ModelState.IsValid)
@@ -99,8 +105,8 @@ namespace HotelWEB.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
             ModelState.AddModelError("", "Model is invalid");
+
             return View();
         }
 

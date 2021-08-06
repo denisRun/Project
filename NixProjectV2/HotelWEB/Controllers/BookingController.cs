@@ -16,7 +16,6 @@ namespace HotelWEB.Controllers
         IGuestService serviceGuest;
         IRoomService serviceRoom;
         IMapper mapper;
-        IMapper mapperToDTO;
         IMapper mapperGuest;
         IMapper mapperRoom;
 
@@ -29,8 +28,6 @@ namespace HotelWEB.Controllers
             this.serviceRoom = serviceRoom;
             this.mapper = new MapperConfiguration(cfg =>
                 cfg.CreateMap<BookingDTO, BookingModel>()).CreateMapper();
-            this.mapperToDTO = new MapperConfiguration(cfg =>
-                cfg.CreateMap<BookingModel, BookingDTO>()).CreateMapper();
             this.mapperGuest = new MapperConfiguration(cfg =>
                cfg.CreateMap<GuestDTO, GuestModel>()).CreateMapper();
             this.mapperRoom = new MapperConfiguration(cfg =>
@@ -40,13 +37,15 @@ namespace HotelWEB.Controllers
         // GET: Booking
         public ActionResult Index()
         {
-            var data = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(service.GetAllBookings());
+            var data = mapper.Map<IEnumerable<BookingDTO>, List<BookingModel>>(
+                service.GetAllBookings());
             return View(data);
         }
 
         public ActionResult Details(int id)
         {
-            var data = mapper.Map<BookingDTO, BookingModel>(service.Get(id));
+            var data = mapper.Map<BookingDTO, BookingModel>(
+                service.Get(id));
             return View(data);
         }
 
@@ -58,7 +57,24 @@ namespace HotelWEB.Controllers
         [HttpPost]
         public ActionResult DateSettings(BookingModel booking)
         {
-            return RedirectToAction("RoomSettings", booking);
+            if (booking.LeaveDate < booking.EnterDate)
+            {
+                ModelState.AddModelError("LeaveDate",
+                    "Leaving date must be greater");
+            }
+            if ((booking.LeaveDate - booking.EnterDate).Days < 1)
+            {
+                ModelState.AddModelError("LeaveDate",
+                    "You can stay not less than 1 day");
+            }
+
+            if (ModelState.IsValidField("EnterDate") &&
+                ModelState.IsValidField("LeaveDate"))
+            {
+                return RedirectToAction("RoomSettings", booking);
+            }
+
+            return View();
         }
 
         public ActionResult RoomSettings(BookingModel booking)
@@ -78,15 +94,16 @@ namespace HotelWEB.Controllers
             ViewBag.enterDate = enterDate;
             ViewBag.leaveDate = leaveDate;
             ViewBag.bookingRoom = roomId;
+
             return View();
         }
 
-        public ActionResult Create(DateTime enterDate, DateTime leaveDate, dynamic bookingRoom, dynamic bookingGuest)
+        public ActionResult Create(DateTime enterDate, DateTime leaveDate,
+            dynamic bookingRoom, dynamic bookingGuest)
         {
             var roomId = Convert.ToInt32(bookingRoom[0]);
             var guestId = Convert.ToInt32(bookingGuest[0]);
             var userId = Convert.ToInt32(User.Identity.Name);
-
             var modelDTO = new BookingDTO()
             {
                 UserId = userId,
@@ -94,61 +111,22 @@ namespace HotelWEB.Controllers
                 EnterDate = enterDate,
                 LeaveDate = leaveDate,
                 BookingRoom = new RoomDTO()
-                {
-                    Id = roomId
-                },
+                { Id = roomId },
                 BookingGuest = new GuestDTO()
-                {
-                    Id = guestId
-                }
+                { Id = guestId }
             };
+
             service.Create(modelDTO);
             return RedirectToAction("Index");
         }
 
-
-        //[HttpPost]
-        //public ActionResult Create(BookingModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        model.UserId = Convert.ToInt32(User.Identity.Name);
-        //        model.ActionUserId = model.UserId;
-        //        var modelDTO = new BookingDTO()
-        //        {
-        //            Id = model.Id,
-        //            UserId = model.UserId,
-        //            BookingDate = model.BookingDate,
-        //            EnterDate = model.EnterDate,
-        //            LeaveDate = model.LeaveDate,
-        //            Set = model.Set,
-        //            ActionUserId = model.ActionUserId,
-        //            BookingRoom = new RoomDTO()
-        //            {
-        //                Id = model.BookingRoom.Id,
-        //                Name = model.BookingRoom.Name
-        //            },
-        //            BookingGuest = new GuestDTO()
-        //            {
-        //                Id = model.BookingGuest.Id,
-        //                Name=model.BookingGuest.Name,
-        //                Surname=model.BookingGuest.Surname
-        //            }
-        //        };
-
-        //        service.Create(modelDTO);
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ModelState.AddModelError("", "Model is invalid");
-        //    return View();
-        //}
-
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var guests = mapperGuest.Map<IEnumerable<GuestDTO>, List<GuestModel>>(serviceGuest.GetAllGuests());
-            var rooms = mapperRoom.Map<IEnumerable<RoomDTO>, List<RoomModel>>(serviceRoom.GetAllRooms());
+            var guests = mapperGuest.Map<IEnumerable<GuestDTO>, List<GuestModel>>(
+                serviceGuest.GetAllGuests());
+            var rooms = mapperRoom.Map<IEnumerable<RoomDTO>, List<RoomModel>>(
+                serviceRoom.GetAllRooms());
             SelectList guestsList = new SelectList(guests, "Id", "FullName");
             SelectList roomsList = new SelectList(rooms, "Id", "Name");
             ViewBag.Guests = guestsList;
@@ -164,30 +142,12 @@ namespace HotelWEB.Controllers
             if (ModelState.IsValid)
             {
                 model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                var modelDTO = new BookingDTO()
-                {
-                    Id = model.Id,
-                    UserId = model.UserId,
-                    BookingDate = model.BookingDate,
-                    EnterDate = model.EnterDate,
-                    LeaveDate = model.LeaveDate,
-                    Set = model.Set,
-                    ActionUserId = model.ActionUserId,
-                    BookingRoom = new RoomDTO()
-                    {
-                        Id = model.BookingRoom.Id
-                    },
-                    BookingGuest = new GuestDTO()
-                    {
-                        Id = model.BookingGuest.Id
-                    }
-                };
-
+                var modelDTO = Helpers.Mapper.MapToBookingDTO(model);
                 service.Update(modelDTO.Id, modelDTO);
                 return RedirectToAction("Index");
             }
-
             ModelState.AddModelError("", "Model is invalid");
+
             return View();
         }
 
@@ -228,7 +188,7 @@ namespace HotelWEB.Controllers
                 else
                 {
                     money.Add(key, sum);
-                }               
+                }
             }
 
             return View(money);

@@ -2,9 +2,19 @@
 
 @{ ViewBag.Title = "Index"; }
 
-@Html.ActionLink("Money per month", "MoneyPerMonth" )
-<h2>Index</h2>
-<table class="table table-hover">
+<div class="row mt-3">
+    <div class="col-xs-3">
+        <h2>All Bookings</h2>
+    </div>
+    <div class="col-xs-1 col-xs-offset-8">
+        <h1>
+            @Html.ActionLink(" ", "DateSettings", null,
+                               new { @class = "glyphicon glyphicon-plus", style = "color:SeaGreen" })
+        </h1>
+    </div>
+</div>
+
+<table class="table table-hover mt-3">
     <thead>
         <tr>
             <th>
@@ -19,52 +29,63 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var booking in Model)
+        @foreach (var room in Model)
         {
-<tr>
+            if (ViewBag.Number == 0) { ViewBag.Number = 1; } else { ViewBag.Number = 0; }
+<tr style="background-color:@(ViewBag.Number == 1 ? "white" : "rgb(248,248,255)")">
     <td>
-        @Html.Raw(booking.BookingGuest.FullName)
+        @Html.Raw(room.BookingGuest.FullName)
     </td>
     <td>
-        @Html.Raw(booking.EnterDate)
+        @Html.Raw(room.EnterDate)
     </td>
     <td>
-        @Html.Raw(booking.LeaveDate)
+        @Html.Raw(room.LeaveDate)
     </td>
     <td>
-        @if (booking.Set == "Checked In")
-        {
-@Html.ActionLink("Check Out", "CheckOut", new
-{
-    id = booking.Id
-}) }
-                else if (booking.Set != "Checked Out")
-                {
-                    @Html.ActionLink("Check in", "CheckIn", new
-                    {
-                        id = booking.Id
-                    })
-                }
+        @if (room.Set == "Checked In")
+         {
+            @Html.ActionLink("Check Out", "CheckOut", new
+            {
+                id = room.Id
+            }) }
+            else if (room.Set != "Checked Out")
+            {
+                @Html.ActionLink("Check in", "CheckIn", new
+            {
+                id = room.Id
+            })
+         }
     </td>
     <td>
-        @Html.ActionLink("Details", "Details", new
-        {
-            id = booking.Id
-        })
+        <h4>
+            @Html.ActionLink(" ", "Details", new
+            {
+                id = room.Id
+            },
+                      new { @class = "glyphicon glyphicon-zoom-in" })
+        </h4>
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new
-        {
-            id = booking.Id
-        })
+        <h4>
+            @Html.ActionLink(" ", "Edit", new
+            {
+                id = room.Id
+            },
+                           new { @class = "glyphicon glyphicon-cog" })
+        </h4>
     </td>
     <td>
-        @Html.ActionLink("Delete", "Delete", new
-        {
-            id = booking.Id
-        })
+        <h4>
+            @Html.ActionLink(" ", "Delete", new
+            {
+                id = room.Id
+            },
+                           new { @class = "glyphicon glyphicon-remove", style = "color:tomato;" })
+        </h4>
     </td>
-</tr>}
+</tr>
+}
     </tbody>
 </table>
-@Html.ActionLink("Create", "Create", null, new[] { "btn" })
+@Html.ActionLink("Money per Month", "MoneyPerMonth")

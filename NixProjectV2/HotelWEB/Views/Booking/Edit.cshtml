@@ -1,36 +1,60 @@
 ﻿@model HotelWEB.Models.BookingModel
-@{
-    ViewBag.Title = "Edit";
-}
+@{ ViewBag.Title = "Edit"; }
 
-<h2>Edit</h2>
+<h2 class="mt-4 mb-4">Edit Booking @Model.Id</h2>
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.EnterDate)
-                <input type="datetime-local" required name="EnterDate" value="@Model.EnterDate.ToString("yyyy-MM-ddThh:mm")" />
+<div class="form-horizontal  container">
+    <div class="col-xs-10 col-xs-offset-1 table-bordered border">
+        <div class="form-group mt-3">
+            <div class="col-xs-2 col-xs-offset-1">
+                <h4>@Html.LabelFor(model => model.EnterDate)</h4>
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control input-lg" type="datetime-local" required name="EnterDate" format-value="yyyy-MM-ddTHH:mm" value="@Model.EnterDate.ToString("yyyy-MM-ddTHH:mm")" />
+                @Html.ValidationMessageFor(model => model.EnterDate)
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <div class="col-xs-2 col-xs-offset-1">
+                <h4>@Html.LabelFor(model => model.LeaveDate)</h4>
+            </div>
+            <div class="col-xs-8">
+                <input class="form-control input-lg" type="datetime-local" required name="LeaveDate" format-value="yyyy-MM-ddTHH:mm" value="@Model.LeaveDate.ToString("yyyy-MM-ddTHH:mm")" />
+                @Html.ValidationMessageFor(model => model.LeaveDate)
+            </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.LeaveDate)
-            <input type="datetime-local" required name="LeaveDate" value="@Model.LeaveDate.ToString("yyyy-MM-ddThh:mm")"/>
+            <div class="col-xs-2 col-xs-offset-1">
+                <h4> @Html.LabelFor(model => model.BookingGuest.FullName)</h4>
+            </div>
+            <div class="col-xs-8">
+                @Html.DropDownListFor(model => model.BookingGuest.Id, (SelectList)ViewBag.Guests, new { @class = "form-control input-lg" })
+            </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.BookingGuest.FullName)
-            @Html.DropDownListFor(model => model.BookingGuest.Id, (SelectList)ViewBag.Guests)
+            <div class="col-xs-2 col-xs-offset-1">
+                <h4> @Html.LabelFor(model => model.BookingRoom.Name)</h4>
+            </div>
+            <div class="col-xs-8">
+                @Html.DropDownListFor(model => model.BookingRoom.Id, (SelectList)ViewBag.Rooms, new { @class = "form-control input-lg" })
+            </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.BookingRoom.Name)
-            @Html.DropDownListFor(model => model.BookingRoom.Id, (SelectList)ViewBag.Rooms)
+            <div class="col-xs-2 col-xs-offset-1">
+                <h4> @Html.LabelFor(model => model.Set)</h4>
+            </div>
+            <div class="col-xs-8">
+                @Html.EditorFor(model => model.Set, new { htmlAttributes = new { @class = "form-control input-lg"} })
+                @Html.ValidationMessageFor(model => model.Set)
+            </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Set)
-            @Html.EditorFor(model => model.Set)
-        </div>
-        <div class="form-group">
-            <input type="submit" action="Create" class="btn" value="Edit" />
+        <div class="form-group ">
+            <div class="col-xs-3 col-xs-offset-6">
+                <input type="submit" action="Create" class="btn btn-primary mb-2" value="OK" />
+            </div>
         </div>
     </div>
-}
+</div>}
 

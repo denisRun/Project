@@ -2,7 +2,7 @@
 
 @{ ViewBag.Title = "Index"; }
 
-<h2>Index</h2>
+<h2 class="mt-4 mb-4">Choose Guest</h2>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -31,7 +31,7 @@
         })
     </td>
     <td>
-        @Html.ActionLink("Select Room", "Create", new
+        @Html.ActionLink("Select Guest", "Create", new
    {
        enterDate = ViewBag.enterDate,
        leaveDate = ViewBag.leaveDate,

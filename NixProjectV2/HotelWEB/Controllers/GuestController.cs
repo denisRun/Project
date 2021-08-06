@@ -27,8 +27,8 @@ namespace HotelWEB.Controllers
 
         public ActionResult Index()
         {
-            var data = mapper.Map<IEnumerable<GuestDTO>, List<GuestModel>>(service.GetAllGuests());
-
+            var data = mapper.Map<IEnumerable<GuestDTO>, List<GuestModel>>(
+                service.GetAllGuests());
             return View(data);
         }
 
@@ -49,15 +49,26 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                var modelDTO = mapperToDTO.Map<GuestModel, GuestDTO>(model);
+                if (model.Name.Length < 2)
+                {
+                    ModelState.AddModelError("Name", "Length of Name must be at least 2");
+                }
+                if (model.Surname.Length < 2)
+                {
+                    ModelState.AddModelError("Surname", "Length of Surname must be at least 2");
+                }
 
-                service.Create(modelDTO);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                    var modelDTO = mapperToDTO.Map<GuestModel, GuestDTO>(model);
+                    service.Create(modelDTO);
+                    return RedirectToAction("Index");
+                }
             }
-
             ModelState.AddModelError("", "Model is invalid");
-            return View();
+
+            return View(model);
         }
 
         [HttpGet]
@@ -72,17 +83,26 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                var modelDTO = mapperToDTO.Map<GuestModel, GuestDTO>(model);
+                if (model.Name.Length < 2)
+                {
+                    ModelState.AddModelError("Name", "Length of Name must be at least 2");
+                }
+                if (model.Surname.Length < 2)
+                {
+                    ModelState.AddModelError("Surname", "Length of Surname must be at least 2");
+                }
 
-                service.Update(modelDTO.Id, modelDTO);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                    var modelDTO = mapperToDTO.Map<GuestModel, GuestDTO>(model);
+                    service.Update(modelDTO.Id, modelDTO);
+                    return RedirectToAction("Index");
+                }
             }
-            else
-            {
-                ModelState.AddModelError("", "Model is invalid");
-                return View();
-            }
+            ModelState.AddModelError("", "Model is invalid");
+
+            return View(model);
         }
 
         public ActionResult Delete(int id)

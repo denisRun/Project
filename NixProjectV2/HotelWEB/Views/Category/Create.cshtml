@@ -3,13 +3,13 @@
     ViewBag.Title = "Create";
 }
 
-<h2 style="margin-bottom:40px;margin-top:40px;">Create new Category</h2>
+<h2 class="mt-4 mb-4">Create new Category</h2>
 
 @using (Html.BeginForm())
 {
     <div class="form-horizontal  container">
         <div class="col-xs-10 col-xs-offset-1 table-bordered border">
-            <div class="form-group form-top-mg">
+            <div class="form-group mt-3">
                 <div class="col-xs-2 col-xs-offset-1">
                     <h4>@Html.LabelFor(model => model.Name)</h4>
                 </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="form-group ">
                 <div class="col-xs-3 col-xs-offset-6">
-                    <input type="submit" action="Create" class="btn btn-primary form-bottom-mg" value="OK" />
+                    <input type="submit" action="Create" class="btn btn-primary mb-2" value="OK" />
                 </div>
             </div>
         </div>

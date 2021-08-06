@@ -15,8 +15,7 @@ namespace HotelWEB.Controllers
         IRoomService service;
         ICategoryService serviceCategory;
         IMapper mapper;
-        IMapper mapperToDTO;
-        IMapper mapperCategories;
+        IMapper mapperCategory;
 
         public RoomController(IRoomService service, ICategoryService serviceCategory)
         {
@@ -24,15 +23,14 @@ namespace HotelWEB.Controllers
             this.serviceCategory = serviceCategory;
             this.mapper = new MapperConfiguration(cfg =>
                 cfg.CreateMap<RoomDTO, RoomModel>()).CreateMapper();
-            this.mapperToDTO = new MapperConfiguration(cfg =>
-                cfg.CreateMap<RoomModel, RoomDTO>()).CreateMapper();
-            this.mapperCategories = new MapperConfiguration(cfg =>
+            this.mapperCategory = new MapperConfiguration(cfg =>
                 cfg.CreateMap<CategoryDTO, CategoryModel>()).CreateMapper();
         }
-        // GET: Room
+        
         public ActionResult Index()
         {
-            var data = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(service.GetAllRooms());
+            var data = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(
+                service.GetAllRooms());
             return View(data);
         }
 
@@ -42,22 +40,19 @@ namespace HotelWEB.Controllers
             return View(data);
         }
 
-        public ActionResult FreeRooms()
+        public ActionResult FreeRooms(DateTime startDate, DateTime endDate)
         {
-            var startDate = DateTime.Now;
-            var endDate = DateTime.Now.AddDays(5);
-
             var data = mapper.Map<IEnumerable<RoomDTO>, List<RoomModel>>(
-                service.GetFreeRooms(startDate,endDate));
+                service.GetFreeRooms(startDate, endDate));
             return View(data);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            var categories = mapperCategories.Map<IEnumerable<CategoryDTO>,
-                List<CategoryModel>>(serviceCategory.GetAllCategories());
-            SelectList categoriesList = new SelectList(categories, "Id", "Name");
+            var categories = mapperCategory.Map<IEnumerable<CategoryDTO>,List<CategoryModel>>(
+                serviceCategory.GetAllCategories());
+            var categoriesList = new SelectList(categories, "Id", "Name");
             ViewBag.Categories = categoriesList;
 
             return View();
@@ -68,31 +63,36 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                var modelDTO = new RoomDTO()
+                if (model.Name.Length < 2)
                 {
-                    Name = model.Name,
-                    ActionUserId = model.ActionUserId,
-                    RoomCategory = new CategoryDTO()
-                    {
-                        Id = model.RoomCategory.Id
-                    }
-                };
+                    ModelState.AddModelError("Name", "Length of Name must be at least 2");
+                }
 
-                service.Create(modelDTO);
-                return RedirectToAction("Index");
+                if (ModelState.IsValidField("Name"))
+                {
+                    model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                    var modelDTO = Helpers.Mapper.MapToRoomDTO(model);
+                    service.Create(modelDTO);
+                    return RedirectToAction("Index");
+                }
             }
-
             ModelState.AddModelError("", "Model is invalid");
-            return View();
+
+            var categories = mapperCategory.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(
+                serviceCategory.GetAllCategories());
+            SelectList categoriesList = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = categoriesList;
+
+            return View(model);
 
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var categories = mapperCategories.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(serviceCategory.GetAllCategories());
-            SelectList categoriesList = new SelectList(categories, "Id", "Name");
+            var categories = mapperCategory.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(
+                serviceCategory.GetAllCategories());
+            var categoriesList = new SelectList(categories, "Id", "Name");
             ViewBag.Categories = categoriesList;
 
             var data = mapper.Map<RoomDTO, RoomModel>(service.Get(id));
@@ -104,26 +104,27 @@ namespace HotelWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.ActionUserId = Convert.ToInt32(User.Identity.Name);
-                var modelDTO = new RoomDTO()
+                if (model.Name.Length < 2)
                 {
-                    Id=model.Id,
-                    Name = model.Name,
-                    ActionUserId = model.ActionUserId,
-                    RoomCategory = new CategoryDTO()
-                    {
-                        Id = model.RoomCategory.Id
-                    }
-                };
+                    ModelState.AddModelError("Name", "Length of Name must be at least 2");
+                }
 
-                service.Update(modelDTO.Id, modelDTO);
-                return RedirectToAction("Index");
+                if (ModelState.IsValidField("Name"))
+                {
+                    model.ActionUserId = Convert.ToInt32(User.Identity.Name);
+                    var modelDTO = Helpers.Mapper.MapToRoomDTO(model);
+                    service.Update(modelDTO.Id, modelDTO);
+                    return RedirectToAction("Index");
+                }
             }
-            else
-            {
-                ModelState.AddModelError("", "Model is invalid");
-                return View();
-            }
+            ModelState.AddModelError("", "Model is invalid");
+
+            var categories = mapperCategory.Map<IEnumerable<CategoryDTO>, List<CategoryModel>>(
+                serviceCategory.GetAllCategories());
+            var categoriesList = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = categoriesList; 
+            
+            return View(model);
         }
 
         public ActionResult Delete(int id)
